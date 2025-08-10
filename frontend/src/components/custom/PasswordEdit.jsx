@@ -16,9 +16,10 @@ import { passwordsSchema } from "../../schemas/schemas";
 import Error from "./Error";
 import { useState } from "react";
 import Spinner from "./Spinner";
+import { Client } from "../../axios/axios";
 
 export default function PasswordEdit() {
-  const { user } = useMainContext();
+  const { user, token, handleUser } = useMainContext();
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
@@ -29,8 +30,28 @@ export default function PasswordEdit() {
     },
   });
 
-  const handleOnSubmit = (data) => {
-    console.log(data);
+  const handleOnSubmit = async (data) => {
+    setLoading(true);
+    try {
+      await Client.get("/sanctum/csrf-cookie");
+      const response = await Client.patch(`/api/users/${user.id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      handleUser(response.data);
+    } catch (err) {
+      const errors = err.response?.data?.errors;
+
+      if (errors) {
+        Object.keys(errors).forEach((field) => {
+          form.setError(field, {
+            type: "server",
+            message: errors[field][0],
+          });
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

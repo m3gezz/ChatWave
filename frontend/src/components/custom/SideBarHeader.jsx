@@ -44,7 +44,7 @@ export default function SideBarHeader() {
       <DropdownMenu>
         <DropdownMenuTrigger className={"cursor-pointer"}>
           <Avatar className={"w-10 h-10"}>
-            {user.avatar && <AvatarImage src={user.avatar} />}
+            <AvatarImage src={user.avatar} />
             <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>

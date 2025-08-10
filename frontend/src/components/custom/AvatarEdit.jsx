@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -12,9 +12,10 @@ import { avatars } from "../../data/avatars";
 import { useForm } from "react-hook-form";
 import { useMainContext } from "../../contexts/MainContext";
 import Spinner from "./Spinner";
+import { Client } from "../../axios/axios";
 
 export default function AvatarEdit() {
-  const { user } = useMainContext();
+  const { user, token, handleUser } = useMainContext();
   const [loading, setLoading] = useState(false);
 
   const form = useForm({ defaultValues: { avatar: user.avatar } });
@@ -22,8 +23,19 @@ export default function AvatarEdit() {
 
   const initial = user.username.charAt(0).toUpperCase();
 
-  const handleOnSubmit = (data) => {
-    console.log(data);
+  const handleOnSubmit = async (data) => {
+    setLoading(true);
+    try {
+      await Client.get("/sanctum/csrf-cookie");
+      const response = await Client.patch(`/api/users/${user.id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      handleUser(response.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,12 +76,13 @@ export default function AvatarEdit() {
                 {...form.register("avatar")}
                 id={`no-avatar`}
                 className="hidden"
-                value={""}
+                value={"none"}
               />
               <label
                 htmlFor={`no-avatar`}
                 className={`cursor-pointer flex items-center justify-center bg-foreground text-background w-10 h-10 rounded-full ${
-                  selectedAvatar == "" && "border-2 border-muted-foreground"
+                  selectedAvatar === "none" &&
+                  "border-2 border-muted-foreground"
                 }`}
               >
                 {initial}

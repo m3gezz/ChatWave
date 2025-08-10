@@ -70,9 +70,9 @@ class UserController extends Controller
 
             if (!Hash::check($fields['old_password'], $user->password)) {
                 $data = [
-                    "message"=> "The selected email is invalid.",
+                    "message"=> "The selected password is invalid.",
                     "errors"=> [
-                        "password"=> [
+                        "old_password"=> [
                             "The old password is incorrect."
                         ]
                     ]

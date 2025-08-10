@@ -19,11 +19,11 @@ class AuthController extends Controller
             'admin' => 'sometimes|boolean',
         ]);
 
-        $user = User::create($fields);    
+        $user = User::create($fields);  
         $token = $user->createToken($user->username)->plainTextToken;
         
         $data = [
-            'user' => $user,
+            'user' => User::where('email', $user->email)->first(),
             'token' => $token,
         ];
 
