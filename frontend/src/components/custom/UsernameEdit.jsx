@@ -17,10 +17,12 @@ import Error from "./Error";
 import { useState } from "react";
 import Spinner from "./Spinner";
 import { Client } from "../../axios/axios";
+import { useNavigate } from "react-router-dom";
 
 export default function UsernameEdit() {
   const { user, token, handleUser } = useMainContext();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(usernameSchema),
@@ -38,6 +40,7 @@ export default function UsernameEdit() {
         headers: { Authorization: `Bearer ${token}` },
       });
       handleUser(response.data);
+      navigate("/user");
     } catch (err) {
       const errors = err.response?.data?.errors;
 

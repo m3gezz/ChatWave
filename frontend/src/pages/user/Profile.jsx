@@ -1,4 +1,5 @@
 import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
   CardAction,
@@ -19,6 +20,7 @@ import AvatarEdit from "../../components/custom/AvatarEdit";
 
 export default function Profile() {
   const { user } = useMainContext();
+  const initial = user.username.charAt(0).toUpperCase();
 
   return (
     <main className="flex flex-col gap-10 min-h-screen select-none justify-center items-center">
@@ -44,7 +46,12 @@ export default function Profile() {
               <div className="space-y-2.5">
                 <CardTitle>Avatar</CardTitle>
                 <CardDescription>
-                  Choose an avatar that suits you.
+                  <Avatar className={"w-10 h-10"}>
+                    <AvatarImage src={user.avatar} />
+                    <AvatarFallback className={"border-2"}>
+                      {initial}
+                    </AvatarFallback>
+                  </Avatar>
                 </CardDescription>
               </div>
               <Dialog>

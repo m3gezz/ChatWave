@@ -13,10 +13,12 @@ import { useForm } from "react-hook-form";
 import { useMainContext } from "../../contexts/MainContext";
 import Spinner from "./Spinner";
 import { Client } from "../../axios/axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AvatarEdit() {
   const { user, token, handleUser } = useMainContext();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm({ defaultValues: { avatar: user.avatar } });
   const selectedAvatar = form.watch("avatar");
@@ -31,6 +33,7 @@ export default function AvatarEdit() {
         headers: { Authorization: `Bearer ${token}` },
       });
       handleUser(response.data);
+      navigate("/user");
     } catch (err) {
       console.error(err);
     } finally {
@@ -64,7 +67,7 @@ export default function AvatarEdit() {
                     alt={`AV ${index}`}
                     className={`cursor-pointer w-10 h-10 bg-foreground rounded-full ${
                       selectedAvatar == avatar &&
-                      "border-2 border-muted-foreground"
+                      "border-3 border-muted-foreground"
                     }`}
                   />
                 </label>
@@ -82,7 +85,7 @@ export default function AvatarEdit() {
                 htmlFor={`no-avatar`}
                 className={`cursor-pointer flex items-center justify-center bg-foreground text-background w-10 h-10 rounded-full ${
                   selectedAvatar === "none" &&
-                  "border-2 border-muted-foreground"
+                  "border-3 border-muted-foreground"
                 }`}
               >
                 {initial}
