@@ -36,7 +36,7 @@ export default function AvatarEdit() {
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-2.5 py-2">
-          <div className="flex justify-around items-center gap-3.5 py-3.5">
+          <div className="flex flex-wrap justify-center items-center gap-3.5 py-3.5">
             {avatars.map((avatar, index) => (
               <div key={index}>
                 <input
