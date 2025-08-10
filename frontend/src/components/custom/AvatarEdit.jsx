@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -11,12 +11,17 @@ import {
 import { avatars } from "../../data/avatars";
 import { useForm } from "react-hook-form";
 import { useMainContext } from "../../contexts/MainContext";
+import Spinner from "./Spinner";
 
 export default function AvatarEdit() {
   const { user } = useMainContext();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm({ defaultValues: { avatar: user.avatar } });
   const selectedAvatar = form.watch("avatar");
+
   const initial = user.username.charAt(0).toUpperCase();
+
   const handleOnSubmit = (data) => {
     console.log(data);
   };
@@ -44,8 +49,8 @@ export default function AvatarEdit() {
                 <label htmlFor={`avatar ${index}`}>
                   <img
                     src={avatar}
-                    alt=""
-                    className={`cursor-pointer w-10 h-10 rounded-full ${
+                    alt={`AV ${index}`}
+                    className={`cursor-pointer w-10 h-10 bg-foreground rounded-full ${
                       selectedAvatar == avatar &&
                       "border-2 border-muted-foreground"
                     }`}
@@ -76,8 +81,8 @@ export default function AvatarEdit() {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit" disabled={!form.formState.isDirty}>
-            Save changes
+          <Button type="submit" disabled={!form.formState.isDirty || loading}>
+            {loading ? <Spinner /> : "Save changes"}
           </Button>
         </DialogFooter>
       </form>

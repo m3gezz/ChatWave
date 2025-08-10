@@ -14,9 +14,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { emailSchema } from "../../schemas/schemas";
 import Error from "./Error";
+import { useState } from "react";
+import Spinner from "./Spinner";
 
 export default function EmailEdit() {
   const { user } = useMainContext();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(emailSchema),
     defaultValues: {
@@ -48,8 +52,8 @@ export default function EmailEdit() {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit" disabled={!form.formState.isDirty}>
-            Save changes
+          <Button type="submit" disabled={!form.formState.isDirty || loading}>
+            {loading ? <Spinner /> : "Save changes"}
           </Button>
         </DialogFooter>
       </form>

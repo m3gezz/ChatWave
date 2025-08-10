@@ -14,9 +14,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { passwordsSchema } from "../../schemas/schemas";
 import Error from "./Error";
+import { useState } from "react";
+import Spinner from "./Spinner";
 
 export default function PasswordEdit() {
   const { user } = useMainContext();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(passwordsSchema),
     defaultValues: {
@@ -24,6 +28,7 @@ export default function PasswordEdit() {
       new_password: "",
     },
   });
+
   const handleOnSubmit = (data) => {
     console.log(data);
   };
@@ -41,6 +46,7 @@ export default function PasswordEdit() {
         <div className="space-y-2.5 py-2">
           <Label htmlFor="old_password">Old Password</Label>
           <Input
+            type="password"
             id="old_password"
             {...form.register("old_password")}
             placeholder={"Old Password"}
@@ -52,6 +58,7 @@ export default function PasswordEdit() {
         <div className="space-y-2.5 py-2">
           <Label htmlFor="new_password">New Password</Label>
           <Input
+            type="password"
             id="new_password"
             {...form.register("new_password")}
             placeholder={"New Password"}
@@ -64,7 +71,9 @@ export default function PasswordEdit() {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? <Spinner /> : "Save changes"}
+          </Button>
         </DialogFooter>
       </form>
     </DialogContent>

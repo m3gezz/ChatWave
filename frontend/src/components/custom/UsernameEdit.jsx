@@ -14,9 +14,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usernameSchema } from "../../schemas/schemas";
 import Error from "./Error";
+import { useState } from "react";
+import Spinner from "./Spinner";
 
 export default function UsernameEdit() {
   const { user } = useMainContext();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(usernameSchema),
     defaultValues: {
@@ -24,6 +28,7 @@ export default function UsernameEdit() {
     },
   });
   const username = form.watch("username");
+
   const handleOnSubmit = (data) => {
     console.log(data);
   };
@@ -49,8 +54,11 @@ export default function UsernameEdit() {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit" disabled={username.trim() === user.username}>
-            Save changes
+          <Button
+            type="submit"
+            disabled={username.trim() === user.username || loading}
+          >
+            {loading ? <Spinner /> : "Save changes"}
           </Button>
         </DialogFooter>
       </form>
