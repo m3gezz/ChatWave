@@ -9,7 +9,7 @@ export const signinFormSchema = z.object({
       message: "Password must be at least 5 characters.",
     })
     .max(255, {
-      message: "Username must not pass 255 characters.",
+      message: "Password must not pass 255 characters.",
     }),
 });
 
@@ -32,7 +32,7 @@ export const signupFormSchema = z
         message: "Password must be at least 5 characters.",
       })
       .max(255, {
-        message: "Username must not pass 255 characters.",
+        message: "Password must not pass 255 characters.",
       }),
     password_confirmation: z.string(),
   })
@@ -56,3 +56,29 @@ export const usernameSchema = z.object({
 export const emailSchema = z.object({
   email: z.email(),
 });
+
+export const passwordsSchema = z
+  .object({
+    old_password: z
+      .string()
+      .trim()
+      .min(5, {
+        message: "Password must be at least 5 characters.",
+      })
+      .max(255, {
+        message: "Password must not pass 255 characters.",
+      }),
+    new_password: z
+      .string()
+      .trim()
+      .min(5, {
+        message: "Password must be at least 5 characters.",
+      })
+      .max(255, {
+        message: "Password must not pass 255 characters.",
+      }),
+  })
+  .refine((data) => data.old_password !== data.new_password, {
+    message: "Passwords must not match",
+    path: ["new_password"],
+  });

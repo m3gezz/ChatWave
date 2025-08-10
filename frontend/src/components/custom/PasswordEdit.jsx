@@ -10,13 +10,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMainContext } from "../../contexts/MainContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { passwordsSchema } from "../../schemas/schemas";
+import Error from "./Error";
 
 export default function PasswordEdit() {
   const { user } = useMainContext();
+  const form = useForm({
+    resolver: zodResolver(passwordsSchema),
+    defaultValues: {
+      old_password: "",
+      new_password: "",
+    },
+  });
+  const handleOnSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <DialogContent className="sm:max-w-[425px]">
-      <form>
+      <form onSubmit={form.handleSubmit(handleOnSubmit)}>
         <DialogHeader>
           <DialogTitle>Edit Password</DialogTitle>
           <DialogDescription>
@@ -28,17 +42,23 @@ export default function PasswordEdit() {
           <Label htmlFor="old_password">Old Password</Label>
           <Input
             id="old_password"
-            name="old_password"
+            {...form.register("old_password")}
             placeholder={"Old Password"}
           />
+          {form.formState.errors.old_password && (
+            <Error>{form.formState.errors.old_password.message}</Error>
+          )}
         </div>
         <div className="space-y-2.5 py-2">
           <Label htmlFor="new_password">New Password</Label>
           <Input
             id="new_password"
-            name="new_password"
+            {...form.register("new_password")}
             placeholder={"New Password"}
           />
+          {form.formState.errors.new_password && (
+            <Error>{form.formState.errors.new_password.message}</Error>
+          )}
         </div>
         <DialogFooter>
           <DialogClose asChild>
