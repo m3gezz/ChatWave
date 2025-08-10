@@ -42,7 +42,7 @@ export default function SideBarHeader() {
   return (
     <header className="h-18 flex items-center border-b-2 md:justify-between md:px-4.5 justify-center">
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger className={"cursor-pointer"}>
           <Avatar className={"w-10 h-10"}>
             {user.avatar && <AvatarImage src={user.avatar} />}
             <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
@@ -62,7 +62,7 @@ export default function SideBarHeader() {
             <Button
               variant={"destructive"}
               disabled={loading}
-              className="w-full"
+              className="w-full cursor-pointer"
               onClick={handleLogout}
             >
               {loading ? <Spinner /> : "Log Out"}
@@ -70,7 +70,7 @@ export default function SideBarHeader() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <span className="hidden md:block font-bold text-lg text-shadow text-shadow-accent">
+      <span className="hidden md:block font-bold text-xl text-shadow text-shadow-accent">
         {user.username}
       </span>
     </header>
