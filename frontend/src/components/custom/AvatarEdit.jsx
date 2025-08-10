@@ -76,7 +76,9 @@ export default function AvatarEdit() {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" disabled={!form.formState.isDirty}>
+            Save changes
+          </Button>
         </DialogFooter>
       </form>
     </DialogContent>

@@ -40,3 +40,19 @@ export const signupFormSchema = z
     message: "Passwords must match",
     path: ["password_confirmation"],
   });
+
+export const usernameSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(3, {
+      message: "Username must be at least 3 characters.",
+    })
+    .max(20, {
+      message: "Username must not pass 20 characters.",
+    }),
+});
+
+export const emailSchema = z.object({
+  email: z.email(),
+});

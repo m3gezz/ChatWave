@@ -10,13 +10,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMainContext } from "../../contexts/MainContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { emailSchema } from "../../schemas/schemas";
+import Error from "./Error";
 
 export default function EmailEdit() {
   const { user } = useMainContext();
+  const form = useForm({
+    resolver: zodResolver(emailSchema),
+    defaultValues: {
+      email: user.email,
+    },
+  });
+
+  const handleOnSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <DialogContent className="sm:max-w-[425px]">
-      <form>
+      <form onSubmit={form.handleSubmit(handleOnSubmit)}>
         <DialogHeader>
           <DialogTitle>Edit Email</DialogTitle>
           <DialogDescription>
@@ -25,13 +39,18 @@ export default function EmailEdit() {
         </DialogHeader>
         <div className="space-y-2.5 py-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" name="email" defaultValue={user.email} />
+          <Input id="email" {...form.register("email")} />
+          {form.formState.errors.email && (
+            <Error>{form.formState.errors.email.message}</Error>
+          )}
         </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" disabled={!form.formState.isDirty}>
+            Save changes
+          </Button>
         </DialogFooter>
       </form>
     </DialogContent>
