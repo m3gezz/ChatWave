@@ -24,8 +24,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signinFormSchema } from "../../schemas/schemas";
 import Spinner from "../../components/custom/Spinner";
+import { Client } from "../../axios/axios";
+import { useMainContext } from "../../contexts/MainContext";
 
 export default function Signin() {
+  const { handleUser, handleToken } = useMainContext();
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
@@ -36,8 +39,27 @@ export default function Signin() {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      await Client.get("/sanctum/csrf-cookie");
+      const response = await Client.post("/api/login", data);
+      handleUser(response.data.user);
+      handleToken(response.data.token);
+    } catch (err) {
+      const errors = err.response?.data?.errors;
+
+      if (errors) {
+        Object.keys(errors).forEach((field) => {
+          form.setError(field, {
+            type: "server",
+            message: errors[field][0],
+          });
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

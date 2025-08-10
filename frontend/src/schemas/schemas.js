@@ -2,9 +2,15 @@ import { refine, z } from "zod";
 
 export const signinFormSchema = z.object({
   email: z.email(),
-  password: z.string().trim().min(5, {
-    message: "Password must be at least 5 characters.",
-  }),
+  password: z
+    .string()
+    .trim()
+    .min(5, {
+      message: "Password must be at least 5 characters.",
+    })
+    .max(255, {
+      message: "Username must not pass 255 characters.",
+    }),
 });
 
 export const signupFormSchema = z
@@ -19,9 +25,15 @@ export const signupFormSchema = z
         message: "Username must not pass 20 characters.",
       }),
     email: z.email(),
-    password: z.string().trim().min(5, {
-      message: "Password must be at least 5 characters.",
-    }),
+    password: z
+      .string()
+      .trim()
+      .min(5, {
+        message: "Password must be at least 5 characters.",
+      })
+      .max(255, {
+        message: "Username must not pass 255 characters.",
+      }),
     password_confirmation: z.string(),
   })
   .refine((data) => data.password === data.password_confirmation, {
