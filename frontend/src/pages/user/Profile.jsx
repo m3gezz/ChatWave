@@ -17,6 +17,7 @@ import UsernameEdit from "../../components/custom/UsernameEdit";
 import PasswordEdit from "../../components/custom/PasswordEdit";
 import EmailEdit from "../../components/custom/EmailEdit";
 import AvatarEdit from "../../components/custom/AvatarEdit";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 export default function Profile() {
   const { user } = useMainContext();
@@ -80,7 +81,20 @@ export default function Profile() {
             <div className="border rounded-md p-2 flex justify-between items-center gap-5">
               <div className="space-y-2.5">
                 <CardTitle>Email</CardTitle>
-                <CardDescription>{user.email}</CardDescription>
+                <CardDescription className={"flex items-center gap-2"}>
+                  {user.email}
+                  {user.email_verified_at ? (
+                    <div className="flex items-center gap-1 text-green-500">
+                      Verified
+                      <FaCheckCircle />
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1 text-red-500">
+                      Unverified
+                      <FaTimesCircle />
+                    </div>
+                  )}
+                </CardDescription>
               </div>
               <Dialog>
                 <DialogTrigger asChild>
