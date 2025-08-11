@@ -56,7 +56,7 @@ class UserController extends Controller
             'username' => 'sometimes|required|string|min:3|max:20|unique:users,username',
             'email' => 'sometimes|required|email|unique:users,email',
             'old_password' => 'sometimes|required|string|min:5|max:255',
-            'new_password' => 'sometimes|required|string|min:5|max:255',
+            'new_password' => 'sometimes|required|string|min:5|max:255|confirmed',
         ]);
 
         if ($request->has('old_password') || $request->has('new_password')) {

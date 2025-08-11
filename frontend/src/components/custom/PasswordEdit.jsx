@@ -29,6 +29,7 @@ export default function PasswordEdit() {
     defaultValues: {
       old_password: "",
       new_password: "",
+      new_password_confirmation: "",
     },
   });
 
@@ -89,6 +90,22 @@ export default function PasswordEdit() {
           />
           {form.formState.errors.new_password && (
             <Error>{form.formState.errors.new_password.message}</Error>
+          )}
+        </div>
+        <div className="space-y-2.5 py-2">
+          <Label htmlFor="new_password_confirmation">
+            Confirm New Password
+          </Label>
+          <Input
+            type="password"
+            id="new_password_confirmation"
+            {...form.register("new_password_confirmation")}
+            placeholder={"New Password Confirmation"}
+          />
+          {form.formState.errors.new_password_confirmation && (
+            <Error>
+              {form.formState.errors.new_password_confirmation.message}
+            </Error>
           )}
         </div>
         <DialogFooter>
