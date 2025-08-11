@@ -63,7 +63,7 @@ export default function EmailVerify() {
         <DialogHeader>
           <DialogTitle>Verify your Email</DialogTitle>
           <DialogDescription>
-            We sent a 5 characters code to your email. Enter it to verify your
+            We sent a 5 digits code to your email. Enter it to verify your
             email.
           </DialogDescription>
         </DialogHeader>
@@ -84,6 +84,7 @@ export default function EmailVerify() {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
+          <Button type="button">Resend</Button>
           <Button type="submit" disabled={loading}>
             {loading ? <Spinner /> : "Verify"}
           </Button>

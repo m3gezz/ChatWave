@@ -93,9 +93,9 @@ export const emailVerificationSchema = z.object({
     .string()
     .trim()
     .min(5, {
-      message: "Code must be exactly 5 characters",
+      message: "Code must be exactly 5 digits",
     })
     .max(5, {
-      message: "Code must be exactly 5 characters",
+      message: "Code must be exactly 5 digits",
     }),
 });

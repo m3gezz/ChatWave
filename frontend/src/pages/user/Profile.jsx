@@ -27,8 +27,17 @@ export default function Profile() {
   return (
     <main className="flex flex-col gap-10 min-h-screen select-none justify-center items-center">
       <h1 className="text-2xl font-bold text-center w-full">
-        Trying to <span className="text-green-300">modify</span> your profile
-        huh. <br /> have fun!
+        {user.email_verified_at ? (
+          <p>
+            Trying to <span className="text-green-300">modify</span> your
+            profile huh. <br /> have fun!
+          </p>
+        ) : (
+          <p>
+            Please <span className="text-green-300">verify</span> your email.
+            <br /> You have limited access until you verify your email
+          </p>
+        )}
       </h1>
       <FadIn>
         <Card>
@@ -38,7 +47,7 @@ export default function Profile() {
               Here you can modify any information about you.
             </CardDescription>
             <CardAction>
-              <Button>
+              <Button disabled={!user.email_verified_at}>
                 <Link to={"/user"}>Go Back</Link>
               </Button>
             </CardAction>
@@ -58,7 +67,11 @@ export default function Profile() {
               </div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className={"w-34"}>
+                  <Button
+                    variant="outline"
+                    className={"w-34"}
+                    disabled={!user.email_verified_at}
+                  >
                     Change avatar
                   </Button>
                 </DialogTrigger>
@@ -72,7 +85,11 @@ export default function Profile() {
               </div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className={"w-34"}>
+                  <Button
+                    variant="outline"
+                    className={"w-34"}
+                    disabled={!user.email_verified_at}
+                  >
                     Change username
                   </Button>
                 </DialogTrigger>
@@ -102,7 +119,11 @@ export default function Profile() {
               <div className="flex flex-col gap-2">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" className={"w-34"}>
+                    <Button
+                      variant="outline"
+                      className={"w-34"}
+                      disabled={!user.email_verified_at}
+                    >
                       Change email
                     </Button>
                   </DialogTrigger>
@@ -125,7 +146,11 @@ export default function Profile() {
               </div>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className={"w-34"}>
+                  <Button
+                    variant="outline"
+                    className={"w-34"}
+                    disabled={!user.email_verified_at}
+                  >
                     Change password
                   </Button>
                 </DialogTrigger>
