@@ -87,3 +87,15 @@ export const passwordsSchema = z
     message: "New and the confirmation Passwords must match",
     path: ["new_password_confirmation"],
   });
+
+export const emailVerificationSchema = z.object({
+  code: z
+    .string()
+    .trim()
+    .min(5, {
+      message: "Code must be exactly 5 characters",
+    })
+    .max(5, {
+      message: "Code must be exactly 5 characters",
+    }),
+});

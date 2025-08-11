@@ -18,6 +18,7 @@ import PasswordEdit from "../../components/custom/PasswordEdit";
 import EmailEdit from "../../components/custom/EmailEdit";
 import AvatarEdit from "../../components/custom/AvatarEdit";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import EmailVerify from "../../components/custom/EmailVerify";
 
 export default function Profile() {
   const { user } = useMainContext();
@@ -81,7 +82,9 @@ export default function Profile() {
             <div className="border rounded-md p-2 flex justify-between items-center gap-5">
               <div className="space-y-2.5">
                 <CardTitle>Email</CardTitle>
-                <CardDescription className={"flex items-center gap-2"}>
+                <CardDescription
+                  className={"flex flex-wrap items-center gap-2"}
+                >
                   {user.email}
                   {user.email_verified_at ? (
                     <div className="flex items-center gap-1 text-green-500">
@@ -96,14 +99,24 @@ export default function Profile() {
                   )}
                 </CardDescription>
               </div>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className={"w-34"}>
-                    Change email
-                  </Button>
-                </DialogTrigger>
-                <EmailEdit />
-              </Dialog>
+              <div className="flex flex-col gap-2">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className={"w-34"}>
+                      Change email
+                    </Button>
+                  </DialogTrigger>
+                  <EmailEdit />
+                </Dialog>
+                {!user.email_verified_at && (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className={"w-34"}>Verify Email</Button>
+                    </DialogTrigger>
+                    <EmailVerify />
+                  </Dialog>
+                )}
+              </div>
             </div>
             <div className="border rounded-md p-2 flex justify-between items-center gap-5">
               <div className="space-y-2.5">

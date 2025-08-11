@@ -68,7 +68,11 @@ export default function EmailEdit() {
         </DialogHeader>
         <div className="space-y-2.5 py-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" {...form.register("email")} />
+          <Input
+            id="email"
+            {...form.register("email")}
+            placeholder="Example@gmail.com"
+          />
           {form.formState.errors.email && (
             <Error>{form.formState.errors.email.message}</Error>
           )}
