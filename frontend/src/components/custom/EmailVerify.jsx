@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { emailVerificationSchema } from "../../schemas/schemas";
 import Error from "./Error";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +30,14 @@ export default function EmailVerify() {
       code: "",
     },
   });
+
+  const sendCode = async () => {
+    console.log("hi");
+  };
+
+  useEffect(() => {
+    sendCode();
+  }, []);
 
   const handleOnSubmit = async (data) => {
     // setLoading(true);
@@ -63,7 +71,7 @@ export default function EmailVerify() {
           <DialogTitle>Verify your Email</DialogTitle>
           <DialogDescription>
             We sent a 5 digits code to your email. Enter it to verify your
-            email.
+            email. The code will expire in 10 minutes
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-2.5 py-2">

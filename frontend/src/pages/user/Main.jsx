@@ -6,9 +6,9 @@ import { Navigate } from "react-router-dom";
 
 export default function Main() {
   const { user, token } = useMainContext();
-  // if (token && !user.email_verified_at) {
-  //   return <Navigate to={"/user/profile"} />;
-  // }
+  if (token && !user.email_verified_at) {
+    return <Navigate to={"/user/profile"} />;
+  }
   return (
     <main className="min-h-screen select-none w-full md:w-[90%] mx-auto lg:w-[80%] flex md:py-4">
       <SideBar />

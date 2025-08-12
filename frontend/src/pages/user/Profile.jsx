@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -20,11 +20,32 @@ import AvatarEdit from "../../components/custom/AvatarEdit";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import EmailVerify from "../../components/custom/EmailVerify";
 import AccountDelete from "../../components/custom/AccountDelete";
+import { Client } from "../../axios/axios";
+import Spinner from "../../components/animations/Spinner";
 
 export default function Profile() {
-  const { user } = useMainContext();
+  const { user, token, handleUser, handleToken } = useMainContext();
+
+  const [loading, setLoading] = useState(false);
   const initial = user.username.charAt(0).toUpperCase();
-  user.email_verified_at = 5;
+
+  const handleLogout = async () => {
+    setLoading(true);
+
+    try {
+      await Client.post(
+        "/api/logout",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      handleUser({});
+      handleToken(null);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main className="flex flex-col gap-10 min-h-screen select-none justify-center items-center">
@@ -49,9 +70,15 @@ export default function Profile() {
               Here you can modify any information about you.
             </CardDescription>
             <CardAction>
-              <Button disabled={!user.email_verified_at}>
-                <Link to={"/user"}>Go Home</Link>
-              </Button>
+              {user.email_verified_at ? (
+                <Button>
+                  <Link to={"/user"}>Go Home</Link>
+                </Button>
+              ) : (
+                <Button onClick={handleLogout} disabled={loading}>
+                  {loading ? <Spinner /> : "Get Out"}
+                </Button>
+              )}
             </CardAction>
           </CardHeader>
           <CardContent className={"space-y-5"}>
