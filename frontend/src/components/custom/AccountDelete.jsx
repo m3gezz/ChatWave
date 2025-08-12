@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -12,22 +13,22 @@ import { Label } from "@/components/ui/label";
 import { useMainContext } from "../../contexts/MainContext";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { emailVerificationSchema } from "../../schemas/schemas";
+import { accountDeletionSchema } from "../../schemas/schemas";
 import Error from "./Error";
 import { useState } from "react";
 import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
 
-export default function EmailVerify() {
+export default function AccountDelete() {
   const { user, token, handleUser } = useMainContext();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const form = useForm({
-    resolver: zodResolver(emailVerificationSchema),
+    resolver: zodResolver(accountDeletionSchema),
     defaultValues: {
-      code: "",
+      password: "",
     },
   });
 
@@ -54,41 +55,37 @@ export default function EmailVerify() {
     // } finally {
     //   setLoading(false);
     // }
-    console.log(data.code.toUpperCase());
+    console.log(data);
   };
 
   return (
     <DialogContent className="sm:max-w-[425px]">
       <form onSubmit={form.handleSubmit(handleOnSubmit)}>
         <DialogHeader>
-          <DialogTitle>Verify your Email</DialogTitle>
+          <DialogTitle>Sure you want to delete this account</DialogTitle>
           <DialogDescription>
-            We sent a 5 digits code to your email. Enter it to verify your
-            email.
+            Please enter the correct password to delete your account.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-2.5 py-2">
-          <Label htmlFor="code">Verifying Code</Label>
+          <Label htmlFor="password">Enter your password</Label>
           <Input
-            id="code"
-            {...form.register("code")}
-            placeholder="Enter code"
+            id="password"
+            type="password"
+            {...form.register("password")}
+            placeholder="Enter password"
             maxLength={5}
-            className={"text-lg text-center uppercase w-[50%] mx-auto my-2.5"}
           />
-          {form.formState.errors.code && (
-            <Error>{form.formState.errors.code.message}</Error>
+          {form.formState.errors.password && (
+            <Error>{form.formState.errors.password.message}</Error>
           )}
         </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="button" variant={"secondary"}>
-            Resend
-          </Button>
-          <Button type="submit" disabled={loading}>
-            {loading ? <Spinner /> : "Verify"}
+          <Button type="submit" variant={"destructive"} disabled={loading}>
+            {loading ? <Spinner /> : "Delete"}
           </Button>
         </DialogFooter>
       </form>

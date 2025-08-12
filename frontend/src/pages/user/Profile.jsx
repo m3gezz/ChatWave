@@ -19,10 +19,12 @@ import EmailEdit from "../../components/custom/EmailEdit";
 import AvatarEdit from "../../components/custom/AvatarEdit";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import EmailVerify from "../../components/custom/EmailVerify";
+import AccountDelete from "../../components/custom/AccountDelete";
 
 export default function Profile() {
   const { user } = useMainContext();
   const initial = user.username.charAt(0).toUpperCase();
+  user.email_verified_at = 5;
 
   return (
     <main className="flex flex-col gap-10 min-h-screen select-none justify-center items-center">
@@ -48,7 +50,7 @@ export default function Profile() {
             </CardDescription>
             <CardAction>
               <Button disabled={!user.email_verified_at}>
-                <Link to={"/user"}>Go Back</Link>
+                <Link to={"/user"}>Go Home</Link>
               </Button>
             </CardAction>
           </CardHeader>
@@ -155,6 +157,26 @@ export default function Profile() {
                   </Button>
                 </DialogTrigger>
                 <PasswordEdit />
+              </Dialog>
+            </div>
+            <div className="border rounded-md p-2 flex justify-between items-center gap-5">
+              <div className="space-y-2.5">
+                <CardTitle>Delete your account</CardTitle>
+                <CardDescription>
+                  This will delete your account permanently
+                </CardDescription>
+              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="destructive"
+                    className={"w-34"}
+                    disabled={!user.email_verified_at}
+                  >
+                    Delete account
+                  </Button>
+                </DialogTrigger>
+                <AccountDelete />
               </Dialog>
             </div>
           </CardContent>

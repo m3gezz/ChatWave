@@ -11,7 +11,7 @@ import {
 import { avatars } from "../../data/avatars";
 import { useForm } from "react-hook-form";
 import { useMainContext } from "../../contexts/MainContext";
-import Spinner from "./Spinner";
+import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
 

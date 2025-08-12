@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usernameSchema } from "../../schemas/schemas";
 import Error from "./Error";
 import { useState } from "react";
-import Spinner from "./Spinner";
+import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
 

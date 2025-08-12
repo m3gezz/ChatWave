@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signupFormSchema } from "../../schemas/schemas";
-import Spinner from "../../components/custom/Spinner";
+import Spinner from "../../components/animations/Spinner";
 import { Client } from "../../axios/axios";
 import { useMainContext } from "../../contexts/MainContext";
 

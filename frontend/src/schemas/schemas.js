@@ -99,3 +99,15 @@ export const emailVerificationSchema = z.object({
       message: "Code must be exactly 5 digits",
     }),
 });
+
+export const accountDeletionSchema = z.object({
+  password: z
+    .string()
+    .trim()
+    .min(5, {
+      message: "Password must be at least 5 characters.",
+    })
+    .max(255, {
+      message: "Password must not pass 255 characters.",
+    }),
+});
