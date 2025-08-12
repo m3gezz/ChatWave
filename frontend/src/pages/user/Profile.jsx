@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -18,16 +18,26 @@ import PasswordEdit from "../../components/custom/PasswordEdit";
 import EmailEdit from "../../components/custom/EmailEdit";
 import AvatarEdit from "../../components/custom/AvatarEdit";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import EmailVerify from "../../components/custom/EmailVerify";
 import AccountDelete from "../../components/custom/AccountDelete";
-import { Client } from "../../axios/axios";
 import Spinner from "../../components/animations/Spinner";
+import { Client } from "../../axios/axios";
 
 export default function Profile() {
   const { user, token, handleUser, handleToken } = useMainContext();
-
   const [loading, setLoading] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+
   const initial = user.username.charAt(0).toUpperCase();
+
+  useEffect(() => {
+    if (countdown <= 0) return;
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [countdown]);
 
   const handleLogout = async () => {
     setLoading(true);
@@ -49,17 +59,24 @@ export default function Profile() {
 
   return (
     <main className="flex flex-col gap-10 min-h-screen select-none justify-center items-center">
-      <h1 className="text-2xl font-bold text-center w-full">
+      <h1 className="text-xl font-bold text-center w-full">
         {user.email_verified_at ? (
           <p>
             Trying to <span className="text-green-300">modify</span> your
             profile huh. <br /> have fun!
           </p>
         ) : (
-          <p>
-            Please <span className="text-green-300">verify</span> your email.
-            <br /> You have limited access until you verify your email
-          </p>
+          <>
+            <p>
+              Please<span className="text-green-300"> verify</span> your email
+              first to get
+              <span className="text-green-300"> full access</span>.<br />
+              check your email!
+              <span className="text-sm block text-green-700">
+                If you verified your email refresh this page
+              </span>
+            </p>
+          </>
         )}
       </h1>
       <FadIn>
@@ -76,7 +93,7 @@ export default function Profile() {
                 </Button>
               ) : (
                 <Button onClick={handleLogout} disabled={loading}>
-                  {loading ? <Spinner /> : "Get Out"}
+                  {loading ? <Spinner /> : "Log Out"}
                 </Button>
               )}
             </CardAction>
@@ -145,7 +162,7 @@ export default function Profile() {
                   )}
                 </CardDescription>
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button
@@ -159,12 +176,12 @@ export default function Profile() {
                   <EmailEdit />
                 </Dialog>
                 {!user.email_verified_at && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className={"w-34"}>Verify Email</Button>
-                    </DialogTrigger>
-                    <EmailVerify />
-                  </Dialog>
+                  <Button
+                    disabled={countdown > 0}
+                    onClick={() => setCountdown(30)}
+                  >
+                    {countdown === 0 ? "Resend" : `Wait ${countdown}s`}
+                  </Button>
                 )}
               </div>
             </div>

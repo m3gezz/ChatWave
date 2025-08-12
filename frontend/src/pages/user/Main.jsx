@@ -9,6 +9,7 @@ export default function Main() {
   if (token && !user.email_verified_at) {
     return <Navigate to={"/user/profile"} />;
   }
+
   return (
     <main className="min-h-screen select-none w-full md:w-[90%] mx-auto lg:w-[80%] flex md:py-4">
       <SideBar />
