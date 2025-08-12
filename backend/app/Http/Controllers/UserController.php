@@ -92,9 +92,26 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
         Gate::authorize('update', $user);
+
+        $fields = $request->validate([
+            'password' => 'required|string|min:5|max:255'
+        ]);
+        
+        if (!Hash::check($fields['password'], $user->password)) {
+            $data = [
+                "message"=> "The selected email is invalid.",
+                "errors"=> [
+                    "password"=> [
+                        "The password is incorrect."
+                    ]
+                ]
+            ];
+            
+            return response()->json($data, 422);
+        }
 
         $user->tokens()->delete();
         $user->delete();

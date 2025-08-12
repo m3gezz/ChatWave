@@ -18,12 +18,10 @@ import Error from "./Error";
 import { useState } from "react";
 import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
-import { useNavigate } from "react-router-dom";
 
 export default function AccountDelete() {
-  const { user, token, handleUser } = useMainContext();
+  const { user, token, handleUser, handleToken } = useMainContext();
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(accountDeletionSchema),
@@ -33,29 +31,34 @@ export default function AccountDelete() {
   });
 
   const handleOnSubmit = async (data) => {
-    // setLoading(true);
-    // try {
-    //   await Client.get("/sanctum/csrf-cookie");
-    //   const response = await Client.patch(`/api/users/${user.id}`, data, {
-    //     headers: { Authorization: `Bearer ${token}` },
-    //   });
-    //   handleUser(response.data);
-    //   navigate("/user");
-    // } catch (err) {
-    //   const errors = err.response?.data?.errors;
+    setLoading(true);
+    try {
+      const response = await Client.post(
+        `/api/users/${user.id}`,
+        {
+          _method: "DELETE",
+          password: data.password,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      handleUser({});
+      handleToken(null);
+    } catch (err) {
+      const errors = err.response?.data?.errors;
 
-    //   if (errors) {
-    //     Object.keys(errors).forEach((field) => {
-    //       form.setError(field, {
-    //         type: "server",
-    //         message: errors[field][0],
-    //       });
-    //     });
-    //   }
-    // } finally {
-    //   setLoading(false);
-    // }
-    console.log(data);
+      if (errors) {
+        Object.keys(errors).forEach((field) => {
+          form.setError(field, {
+            type: "server",
+            message: errors[field][0],
+          });
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -74,7 +77,6 @@ export default function AccountDelete() {
             type="password"
             {...form.register("password")}
             placeholder="Enter password"
-            maxLength={5}
           />
           {form.formState.errors.password && (
             <Error>{form.formState.errors.password.message}</Error>

@@ -24,7 +24,6 @@ export default function SideBarHeader() {
     setLoading(true);
 
     try {
-      await Client.get("/sanctum/csrf-cookie");
       await Client.post(
         "/api/logout",
         {},

@@ -35,7 +35,6 @@ export default function EmailEdit() {
   const handleOnSubmit = async (data) => {
     setLoading(true);
     try {
-      await Client.get("/sanctum/csrf-cookie");
       const response = await Client.patch(`/api/users/${user.id}`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
