@@ -67,6 +67,28 @@ export default function EmailVerification() {
     }
   };
 
+  const fetchUser = async () => {
+    setEmailLoading(true);
+    setLogLoading(true);
+
+    try {
+      const response = await Client.get(`/api/users/${user.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      handleUser(response.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setEmailLoading(false);
+      setLogLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <FadIn>
       <Card className={"space-y-2 text-center select-none"}>

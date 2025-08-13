@@ -34,7 +34,6 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        Gate::authorize('update', $user);
 
         if ($user->admin) {
             $data = ['message' => 'Not found'];
