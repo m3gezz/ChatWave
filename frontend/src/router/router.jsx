@@ -3,9 +3,11 @@ import NotFound from "../pages/all/NotFound";
 import GuestLayout from "../layouts/GuestLayout";
 import Signin from "../pages/guest/Signin";
 import Signup from "../pages/guest/Signup";
-import Profile from "../pages/user/Profile";
-import Main from "../pages/user/Main";
+import Profile from "../pages/user/verified/Profile";
+import Main from "../pages/user/verified/Main";
 import UserLayout from "../layouts/UserLayout";
+import EmailVerificationLayout from "../layouts/EmailVerificationLayout";
+import EmailVerification from "../pages/user/non-verified/EmailVerification";
 
 const routes = [
   {
@@ -41,6 +43,16 @@ const routes = [
       {
         path: "/user/profile",
         element: <Profile />,
+      },
+    ],
+  },
+  {
+    path: "/verify",
+    element: <EmailVerificationLayout />,
+    children: [
+      {
+        path: "/verify",
+        element: <EmailVerification />,
       },
     ],
   },
