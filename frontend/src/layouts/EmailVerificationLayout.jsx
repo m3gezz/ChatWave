@@ -9,7 +9,7 @@ export default function EmailVerificationLayout() {
   if (token && user.email_verified_at) return <Navigate to={"/user"} />;
 
   return (
-    <main className="flex items-center justify-center h-[80vh] p-2">
+    <main className="flex items-center justify-center h-[100vh] p-2">
       <Outlet />
     </main>
   );

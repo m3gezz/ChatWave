@@ -11,6 +11,11 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import Spinner from "../../../components/animations/Spinner";
 import { Client } from "../../../axios/axios";
+import {
+  FaCheckCircle,
+  FaRegCheckCircle,
+  FaRegTimesCircle,
+} from "react-icons/fa";
 
 export default function EmailVerification() {
   const [logLoading, setLogLoading] = useState(false);
@@ -59,13 +64,15 @@ export default function EmailVerification() {
 
   return (
     <FadIn>
-      <Card className={"space-y-8 text-center select-none"}>
+      <Card className={"space-y-2 text-center select-none"}>
         <CardHeader className={"space-y-2"}>
-          <CardTitle>Verify your email first to get full access</CardTitle>
+          <CardTitle className={"flex items-center justify-center gap-2.5"}>
+            Verify your email first to continue
+            <FaRegCheckCircle className="text-green-500" />
+          </CardTitle>
           <CardDescription>
-            We sent a verification message to this email, <br />
-            {user.email}
-            <br /> Please check your emails
+            We sent a verification message to {user.email}.<br /> Please check
+            your emails
           </CardDescription>
           <CardDescription>
             If you have any problems, Please refresh the page or try again
@@ -82,7 +89,14 @@ export default function EmailVerification() {
             disabled={logLoading}
             variant={"outline"}
           >
-            {logLoading ? <Spinner /> : "Cancel verification"}
+            {logLoading ? (
+              <Spinner />
+            ) : (
+              <div className="flex items-center justify-center gap-2.5">
+                Cancel verification{" "}
+                <FaRegTimesCircle className="text-destructive" />
+              </div>
+            )}
           </Button>
           <Button
             disabled={countdown > 0 || emailLoading}
@@ -91,7 +105,7 @@ export default function EmailVerification() {
             {emailLoading ? (
               <Spinner />
             ) : countdown > 0 ? (
-              `Wait ${countdown}s`
+              `Wait ${countdown}s to use again`
             ) : (
               "Resend message"
             )}
