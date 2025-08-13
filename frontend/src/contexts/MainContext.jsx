@@ -15,7 +15,6 @@ export default function MainContext({ children }) {
 
   const [user, setUser] = useState(parsedUser);
   const [token, setToken] = useState(localStorage.getItem("TOKEN") || null);
-
   const handleUser = (user) => {
     setUser(user);
 

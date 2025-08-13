@@ -11,16 +11,13 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import Spinner from "../../../components/animations/Spinner";
 import { Client } from "../../../axios/axios";
-import {
-  FaCheckCircle,
-  FaRegCheckCircle,
-  FaRegTimesCircle,
-} from "react-icons/fa";
+import { FaRegCheckCircle, FaRegTimesCircle } from "react-icons/fa";
 
 export default function EmailVerification() {
   const [logLoading, setLogLoading] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [message, setMessage] = useState("");
   const { user, token, handleUser, handleToken } = useMainContext();
 
   useEffect(() => {
@@ -55,7 +52,15 @@ export default function EmailVerification() {
     setEmailLoading(true);
 
     try {
+      const response = await Client.post(
+        "/api/email/verification-notification",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setMessage(response.data.message);
     } catch (err) {
+      console.error(err);
     } finally {
       setEmailLoading(false);
       setCountdown(30);
@@ -77,12 +82,11 @@ export default function EmailVerification() {
           <CardDescription>
             If you have any problems, Please refresh the page or try again
             later.
+            {message && <p className="text-green-700">{message}</p>}
           </CardDescription>
         </CardHeader>
         <CardContent
-          className={
-            " flex md:flex-row justify-evenly gap-3.5 flex-col-reverse"
-          }
+          className={"flex md:flex-row justify-evenly gap-3.5 flex-col-reverse"}
         >
           <Button
             onClick={handleLogout}
