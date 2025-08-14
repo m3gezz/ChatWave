@@ -66,7 +66,7 @@ export default function ForgotPassword() {
               />
               <div className="flex flex-col gap-2.5 md:flex-row-reverse">
                 <Button type="submit" disabled={loading}>
-                  {loading ? <Spinner /> : "Sign In"}
+                  {loading ? <Spinner /> : "Send"}
                 </Button>
                 <Button variant={"secondary"} type={"button"}>
                   <Link to={"/guest"} className="w-full">

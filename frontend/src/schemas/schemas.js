@@ -99,3 +99,21 @@ export const accountDeletionSchema = z.object({
       message: "Password must not pass 255 characters.",
     }),
 });
+
+export const resetPasswordSchema = z
+  .object({
+    new_password: z
+      .string()
+      .trim()
+      .min(5, {
+        message: "Password must be at least 5 characters.",
+      })
+      .max(255, {
+        message: "Password must not pass 255 characters.",
+      }),
+    new_password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: "Passwords must match",
+    path: ["password_confirmation"],
+  });
