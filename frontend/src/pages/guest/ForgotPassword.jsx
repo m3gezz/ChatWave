@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FadIn from "../../components/animations/FadIn";
 import { Link } from "react-router-dom";
 import {
@@ -24,9 +24,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { emailSchema } from "../../schemas/schemas";
 import Spinner from "../../components/animations/Spinner";
+import { Client } from "../../axios/axios";
 
 export default function ForgotPassword() {
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [countdown, setCountdown] = useState(0);
+
+  useEffect(() => {
+    if (countdown <= 0) return;
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [countdown]);
 
   const form = useForm({
     resolver: zodResolver(emailSchema),
@@ -36,7 +49,24 @@ export default function ForgotPassword() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    setLoading(true);
+    try {
+      await Client.get("/sanctum/csrf-cookie");
+      const response = await Client.post("/api/forgot-password", data);
+      setMessage(response.data.message);
+    } catch (err) {
+      const error = err.response?.data?.errors;
+
+      if (error) {
+        form.setError("email", {
+          type: "server",
+          message: error,
+        });
+      }
+    } finally {
+      setLoading(false);
+      setCountdown(60);
+    }
   };
   return (
     <FadIn>
@@ -45,6 +75,7 @@ export default function ForgotPassword() {
           <CardTitle>Forgot your password</CardTitle>
           <CardDescription>
             Enter your email below so we can help you reset your password
+            {message && <p className="text-green-700">{message}</p>}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -65,8 +96,14 @@ export default function ForgotPassword() {
                 )}
               />
               <div className="flex flex-col gap-2.5 md:flex-row-reverse">
-                <Button type="submit" disabled={loading}>
-                  {loading ? <Spinner /> : "Send"}
+                <Button type="submit" disabled={loading || countdown}>
+                  {loading ? (
+                    <Spinner />
+                  ) : countdown > 0 ? (
+                    `Wait ${countdown}s to use again`
+                  ) : (
+                    "Send Link"
+                  )}
                 </Button>
                 <Button variant={"secondary"} type={"button"}>
                   <Link to={"/guest"} className="w-full">

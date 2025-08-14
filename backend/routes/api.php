@@ -54,7 +54,7 @@ Route::post('/forgot-password', function (Request $request) {
 
     return $status === Password::RESET_LINK_SENT
         ? response()->json(['message' => __($status)])
-        : response()->json(['message' => __($status)], 400);
+        : response()->json(['errors' => __($status)], 400);
 });
 
 Route::post('/reset-password', function (Request $request) {

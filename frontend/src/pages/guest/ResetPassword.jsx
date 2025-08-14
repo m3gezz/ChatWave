@@ -41,8 +41,6 @@ export default function ResetPassword() {
     setEmail(params.get("email") || "");
   }, [location.search]);
 
-  console.log(token, email);
-
   const form = useForm({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
