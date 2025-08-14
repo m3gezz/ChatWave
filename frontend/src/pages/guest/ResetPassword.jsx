@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import FadIn from "../../components/animations/FadIn";
-import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -24,12 +30,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { resetPasswordSchema } from "../../schemas/schemas";
 import Spinner from "../../components/animations/Spinner";
+import { Client } from "../../axios/axios";
 
 export default function ResetPassword() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -51,8 +60,31 @@ export default function ResetPassword() {
 
   const onSubmit = async (data) => {
     data = { ...{ token: token, email: email }, ...data };
-    console.log(data);
+    setLoading(true);
+
+    try {
+      await Client.get("/sanctum/csrf-cookie");
+      const response = await Client.post("/api/reset-password", data);
+      setMessage(response.data.message);
+      setTimeout(() => {
+        navigate("/guest");
+      }, 1500);
+    } catch (err) {
+      const errors = err.response?.data?.errors;
+
+      if (errors) {
+        Object.keys(errors).forEach((field) => {
+          form.setError(field, {
+            type: "server",
+            message: errors[field][0],
+          });
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <FadIn>
       <Card>
@@ -60,6 +92,7 @@ export default function ResetPassword() {
           <CardTitle>Forgot your password!</CardTitle>
           <CardDescription>
             Enter your email below so we can help you reset your password
+            {message && <p className="text-green-700">{message}</p>}
           </CardDescription>
         </CardHeader>
         <CardContent>
