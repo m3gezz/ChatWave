@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Conversation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+
+class ConversationController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        
+        $data = Conversation::whereJsonContains('members', [$request->user()->id])->get();
+
+        return response()->json($data, 200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $fields = $request->validate([
+            'title' => 'nullable|string',
+            'members' => 'required|array|min:2',
+            'group' => 'required|boolean',
+        ]);
+
+        if (!$fields['group']) {
+            $existing = Conversation::where('group', false)
+                ->whereJsonContains('members', [$fields['members'][0]])
+                ->whereJsonContains('members', [$fields['members'][1]])
+                ->first();
+
+            if ($existing) {
+                return response()->json($existing, 200);
+            }
+        }
+
+        return Conversation::create($fields);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Conversation $conversation)
+    {
+        Gate::authorize('update', $conversation);
+
+        return response()->json($conversation, 200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Conversation $conversation)
+    {
+        Gate::authorize('update', $conversation);
+
+        $fields = $request->validate([
+            'title' => 'sometimes|required|string',
+            'members' => 'sometimes|required|array|min:1',
+        ]);
+
+        if ($conversation->group) {
+            
+            $conversation->update($fields);
+            return response()->json($conversation, 200);
+        }
+        
+        return response()->json(['message' => 'you can not update 1 on 1 conversations'], 403);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Conversation $conversation)
+    {
+        Gate::authorize('update', $conversation);
+
+        $conversation->delete();
+
+        return response()->json(['message' => 'Deleted successfully'], 200);
+    }
+}
