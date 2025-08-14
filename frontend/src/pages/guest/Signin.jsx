@@ -26,6 +26,7 @@ import { signinFormSchema } from "../../schemas/schemas";
 import Spinner from "../../components/animations/Spinner";
 import { Client } from "../../axios/axios";
 import { useMainContext } from "../../contexts/MainContext";
+import GuestHeader from "@/components/custom/GuestHeader";
 
 export default function Signin() {
   const { handleUser, handleToken } = useMainContext();
@@ -64,6 +65,7 @@ export default function Signin() {
 
   return (
     <FadIn>
+      <GuestHeader />
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>

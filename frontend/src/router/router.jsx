@@ -8,6 +8,8 @@ import Main from "../pages/user/verified/Main";
 import UserLayout from "../layouts/UserLayout";
 import EmailVerificationLayout from "../layouts/EmailVerificationLayout";
 import EmailVerification from "../pages/user/non-verified/EmailVerification";
+import ResetPassword from "../pages/guest/ResetPassword";
+import ForgotPassword from "../pages/guest/ForgotPassword";
 
 const routes = [
   {
@@ -29,6 +31,14 @@ const routes = [
       {
         path: "/guest/signup",
         element: <Signup />,
+      },
+      {
+        path: "/guest/forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/guest/reset-password",
+        element: <ResetPassword />,
       },
     ],
   },
