@@ -88,18 +88,6 @@ export const passwordsSchema = z
     path: ["new_password_confirmation"],
   });
 
-export const emailVerificationSchema = z.object({
-  code: z
-    .string()
-    .trim()
-    .min(5, {
-      message: "Code must be exactly 5 digits",
-    })
-    .max(5, {
-      message: "Code must be exactly 5 digits",
-    }),
-});
-
 export const accountDeletionSchema = z.object({
   password: z
     .string()
