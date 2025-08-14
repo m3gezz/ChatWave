@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FadIn from "../../components/animations/FadIn";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -26,6 +26,9 @@ import { resetPasswordSchema } from "../../schemas/schemas";
 import Spinner from "../../components/animations/Spinner";
 
 export default function ResetPassword() {
+  const { token, email } = useParams();
+  if (!token || !email) return <Navigate to={"/guest/forgot-password"} />;
+
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
@@ -43,7 +46,7 @@ export default function ResetPassword() {
     <FadIn>
       <Card>
         <CardHeader>
-          <CardTitle>Forgot your password</CardTitle>
+          <CardTitle>Forgot your password!</CardTitle>
           <CardDescription>
             Enter your email below so we can help you reset your password
           </CardDescription>
@@ -58,7 +61,11 @@ export default function ResetPassword() {
                   <FormItem>
                     <FormLabel>New Password</FormLabel>
                     <FormControl>
-                      <Input placeholder="example123" {...field} />
+                      <Input
+                        placeholder="example123"
+                        type={"password"}
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>Enter your new password.</FormDescription>
                     <FormMessage />
@@ -72,7 +79,11 @@ export default function ResetPassword() {
                   <FormItem>
                     <FormLabel>New Password Confirmation</FormLabel>
                     <FormControl>
-                      <Input placeholder="example123" {...field} />
+                      <Input
+                        placeholder="example123"
+                        type={"password"}
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
                       Confirm your new password.

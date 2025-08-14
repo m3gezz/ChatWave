@@ -27,8 +27,8 @@ export default function Profile() {
   return (
     <main className="flex flex-col gap-10 p-2 min-h-screen select-none justify-center items-center">
       <h1 className="text-xl font-bold text-center w-full">
-        Trying to <span className="text-green-300">modify</span> your profile
-        huh. <br /> have fun!
+        Trying to <span className="text-green-300">modify</span> your profile.{" "}
+        <br /> Have fun!
       </h1>
       <FadIn>
         <Card>
