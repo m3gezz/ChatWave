@@ -68,7 +68,7 @@ export default function ResetPassword() {
       setMessage(response.data.message);
       setTimeout(() => {
         navigate("/guest");
-      }, 1500);
+      }, 500);
     } catch (err) {
       const errors = err.response?.data?.errors;
 
