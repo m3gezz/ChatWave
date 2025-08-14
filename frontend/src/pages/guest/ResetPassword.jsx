@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FadIn from "../../components/animations/FadIn";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -26,20 +26,33 @@ import { resetPasswordSchema } from "../../schemas/schemas";
 import Spinner from "../../components/animations/Spinner";
 
 export default function ResetPassword() {
-  const { token, email } = useParams();
-  if (!token || !email) return <Navigate to={"/guest/forgot-password"} />;
-
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+
+    if (!params.get("token") || !params.get("email"))
+      return <Navigate to={"/guest/forgot-password"} />;
+
+    setToken(params.get("token") || "");
+    setEmail(params.get("email") || "");
+  }, [location.search]);
+
+  console.log(token, email);
 
   const form = useForm({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      new_password: "",
-      new_password_confirmation: "",
+      password: "",
+      password_confirmation: "",
     },
   });
 
   const onSubmit = async (data) => {
+    data = { ...{ token: token, email: email }, ...data };
     console.log(data);
   };
   return (
@@ -56,7 +69,7 @@ export default function ResetPassword() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
-                name="new_password"
+                name="password"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>New Password</FormLabel>
@@ -74,7 +87,7 @@ export default function ResetPassword() {
               />
               <FormField
                 control={form.control}
-                name="new_password_confirmation"
+                name="password_confirmation"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>New Password Confirmation</FormLabel>

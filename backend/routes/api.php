@@ -2,22 +2,28 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Auth\Events\Verified;
+
 use App\Models\User;
 
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
+//Authentication
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+//Users
 Route::apiResource('/users', UserController::class)->middleware('auth:sanctum');
 
-
+//Email verification
 Route::post('/email/verification-notification', function (Request $request) {
     if ($request->user()->hasVerifiedEmail()) {
-        return response()->json(['message' => 'Already verified'], 400);
+        return response()->json(['message' => 'Already verified refresh the page']);
     }
 
     $request->user()->sendEmailVerificationNotification();
@@ -39,3 +45,38 @@ Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
 
     return redirect(env('FRONTEND_URL') . '/user');
 })->middleware('signed')->name('verification.verify');
+
+//Password reset
+Route::post('/forgot-password', function (Request $request) {
+    $fields = $request->validate(['email' => 'required|email']);
+
+    $status = Password::sendResetLink($fields);
+
+    return $status === Password::RESET_LINK_SENT
+        ? response()->json(['message' => __($status)])
+        : response()->json(['message' => __($status)], 400);
+});
+
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|string|min:5|max:255|confirmed',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill([
+                'password' => Hash::make($password)
+            ])->save();
+
+            $user->setRememberToken(Str::random(60));
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? response()->json(['message' => __($status)])
+        : response()->json(['message' => __($status)], 400);
+});
+
