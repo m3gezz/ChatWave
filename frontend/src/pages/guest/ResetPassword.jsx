@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
 import FadIn from "../../components/animations/FadIn";
-import {
-  Link,
-  Navigate,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,7 +37,7 @@ export default function ResetPassword() {
     const params = new URLSearchParams(location.search);
 
     if (!params.get("token") || !params.get("email"))
-      return <Navigate to={"/guest/forgot-password"} />;
+      return navigate("/guest/forgot-password");
 
     setToken(params.get("token") || "");
     setEmail(params.get("email") || "");
@@ -93,6 +86,16 @@ export default function ResetPassword() {
           <CardDescription>
             Enter your email below so we can help you reset your password
             {message && <p className="text-green-700">{message}</p>}
+            {form.formState.errors.token && (
+              <p className="text-destructive">
+                {form.formState.errors.token.message}
+              </p>
+            )}
+            {form.formState.errors.email && (
+              <p className="text-destructive">
+                {form.formState.errors.token.email}
+              </p>
+            )}
           </CardDescription>
         </CardHeader>
         <CardContent>
