@@ -20,6 +20,8 @@ export default function EmailVerification() {
   const [message, setMessage] = useState("");
   const { user, token, handleUser, handleToken } = useMainContext();
 
+  const disable = message === "Already verified refresh the page";
+
   useEffect(() => {
     if (countdown <= 0) return;
 
@@ -98,12 +100,10 @@ export default function EmailVerification() {
             <FaRegCheckCircle className="text-green-500" />
           </CardTitle>
           <CardDescription>
-            We sent a verification message to {user.email}.<br /> Please check
-            your emails
+            Click Send to get a verification message in {user.email}.<br />{" "}
+            Please check your emails
           </CardDescription>
           <CardDescription>
-            If you have any problems, Please refresh the page or try again
-            later.
             {message && <p className="text-green-700">{message}</p>}
           </CardDescription>
         </CardHeader>
@@ -112,7 +112,7 @@ export default function EmailVerification() {
         >
           <Button
             onClick={handleLogout}
-            disabled={logLoading}
+            disabled={logLoading || disable}
             variant={"outline"}
           >
             {logLoading ? (
@@ -125,7 +125,7 @@ export default function EmailVerification() {
             )}
           </Button>
           <Button
-            disabled={countdown > 0 || emailLoading}
+            disabled={countdown > 0 || emailLoading || disable}
             onClick={handleVerificationResend}
           >
             {emailLoading ? (
@@ -133,7 +133,7 @@ export default function EmailVerification() {
             ) : countdown > 0 ? (
               `Wait ${countdown}s to use again`
             ) : (
-              "Resend message"
+              "Send verification message"
             )}
           </Button>
         </CardContent>

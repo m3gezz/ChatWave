@@ -84,6 +84,11 @@ class UserController extends Controller
             return response()->json($user, 200);
         }
 
+        if ($request->has('email')) {
+            $user->email_verified_at = null;
+            $user->save();
+        }
+
         $user->update($fields);
         return response()->json($user, 200);
     }
