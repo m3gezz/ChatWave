@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { conversations } from "../../data/conversations";
 import { useMainContext } from "../../contexts/MainContext";
+import { FaUserGroup } from "react-icons/fa6";
 
 export default function MainHeader() {
   const { user, conversationId } = useMainContext();
@@ -29,10 +30,15 @@ export default function MainHeader() {
 
   return (
     <header className="h-18 flex items-center border-b-2 px-4.5 justify-baseline gap-5">
-      <Avatar className={"w-10 h-10 "}>
-        <AvatarImage src={avatar} />
-        <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
-      </Avatar>
+      <div className="relative">
+        <Avatar className={"w-10 h-10 "}>
+          <AvatarImage src={avatar} />
+          <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
+        </Avatar>
+        {selectedConversation.group && (
+          <FaUserGroup className="absolute bottom-0 right-0 text-foreground" />
+        )}
+      </div>
       <span>{displayName}</span>
     </header>
   );

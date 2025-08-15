@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conversation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,8 +14,23 @@ class ConversationController extends Controller
      */
     public function index(Request $request)
     {
-        
-        $data = Conversation::whereJsonContains('members', [$request->user()->id])->get();
+        $userId = $request->user()->id;
+
+        $conversations = Conversation::whereJsonContains('members', [$userId])->get();
+
+        $data = $conversations->map(function ($conversation) use($userId) {
+            $members = User::whereIn('id', $conversation->members)->get(['id', 'username', 'avatar']);
+
+            $members = $members->filter(fn($m) => $m->id !== $userId)->values();
+
+            return [
+                'id' => $conversation->id,
+                'title' => $conversation->title,
+                'group' => $conversation->group,
+                'avatar' => $conversation->avatar ?? 'https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_1.png', // fallback
+                'members' => $members,
+            ];
+        });
 
         return response()->json($data, 200);
     }
