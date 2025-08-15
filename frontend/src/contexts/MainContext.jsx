@@ -6,6 +6,8 @@ const Context = createContext({
   token: null,
   handleUser: () => {},
   handleToken: () => {},
+  conversationId: null,
+  handleCurrentConversation: () => {},
 });
 
 export default function MainContext({ children }) {
@@ -13,8 +15,12 @@ export default function MainContext({ children }) {
     ? JSON.parse(localStorage.getItem("USER"))
     : {};
 
-  const [user, setUser] = useState(parsedUser);
-  const [token, setToken] = useState(localStorage.getItem("TOKEN") || null);
+  const lik = { id: 1, username: "amine", email_verified_at: 6 };
+
+  const [user, setUser] = useState(lik);
+  const [token, setToken] = useState(localStorage.getItem("TOKEN") || 123);
+  const [conversationId, setConversationId] = useState(null);
+
   const handleUser = (user) => {
     setUser(user);
 
@@ -35,8 +41,21 @@ export default function MainContext({ children }) {
     }
   };
 
+  const handleCurrentConversation = (conversationId) => {
+    setConversationId(conversationId);
+  };
+
   return (
-    <Context.Provider value={{ user, token, handleUser, handleToken }}>
+    <Context.Provider
+      value={{
+        user,
+        token,
+        handleUser,
+        handleToken,
+        conversationId,
+        handleCurrentConversation,
+      }}
+    >
       {children}
     </Context.Provider>
   );
