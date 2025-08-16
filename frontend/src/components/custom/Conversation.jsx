@@ -4,23 +4,21 @@ import { useMainContext } from "../../contexts/MainContext";
 import { FaUserGroup } from "react-icons/fa6";
 
 export default function Conversation({ conversation }) {
-  const { user, handleCurrentConversation } = useMainContext();
+  const { handleCurrentConversation } = useMainContext();
 
-  let displayName = "User(s)";
+  let displayName = "";
   let avatar = "";
-  let initial = "U(s)";
+  let initial = "";
 
   if (conversation.group) {
-    displayName = conversation.title;
-    avatar = conversation.avatar;
-    initial = conversation.title.charAt(0).toUpperCase();
-  } else {
-    const secondUser = conversation.members.filter(
-      (member) => member.id != user.id
-    );
-    displayName = secondUser[0].username;
-    avatar = secondUser[0].avatar;
-    initial = secondUser[0].username.charAt(0).toUpperCase();
+    displayName = conversation.title ?? "Unnamed Group";
+    avatar = conversation.avatar ?? "";
+    initial = displayName.charAt(0).toUpperCase();
+  } else if (conversation.members && conversation.members.length > 0) {
+    const member = conversation.members[0];
+    displayName = member.username ?? "Unknown User";
+    avatar = member.avatar ?? "";
+    initial = member.username?.charAt(0).toUpperCase() ?? "U";
   }
 
   const handleClick = () => {

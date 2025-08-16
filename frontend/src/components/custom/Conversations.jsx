@@ -9,7 +9,7 @@ export default function Conversations() {
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchUser = async () => {
+  const fetchConversations = async () => {
     setLoading(true);
 
     try {
@@ -26,7 +26,7 @@ export default function Conversations() {
   };
 
   useEffect(() => {
-    fetchUser();
+    fetchConversations();
   }, []);
 
   return (
