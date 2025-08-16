@@ -1,31 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { conversations } from "../../data/conversations";
-import { useMainContext } from "../../contexts/MainContext";
 import { FaUserGroup } from "react-icons/fa6";
 
-export default function MainHeader() {
-  const { user, conversationId } = useMainContext();
-
-  const selectedConversation = conversations.find(
-    (conversation) => conversation.id == conversationId
-  );
-
-  let displayName = "User(s)";
+export default function MainHeader({ conversation }) {
+  let displayName = "";
   let avatar = "";
-  let initial = "U(s)";
+  let initial = "";
 
-  if (selectedConversation.group) {
-    displayName = selectedConversation.title;
-    avatar = selectedConversation.avatar;
-    initial = selectedConversation.title.charAt(0).toUpperCase();
-  } else {
-    const secondUser = selectedConversation.members.filter(
-      (member) => member.id != user.id
-    );
-    displayName = secondUser[0].username;
-    avatar = secondUser[0].avatar;
-    initial = secondUser[0].username.charAt(0).toUpperCase();
+  if (conversation.group) {
+    displayName = conversation.title ?? "Unnamed Group";
+    avatar = conversation.avatar ?? "";
+    initial = displayName.charAt(0).toUpperCase();
+  } else if (conversation.members && conversation.members.length > 0) {
+    const member = conversation.members[0];
+    displayName = member.username ?? "Unknown User";
+    avatar = member.avatar ?? "";
+    initial = member.username?.charAt(0).toUpperCase() ?? "U";
   }
 
   return (
@@ -35,7 +25,7 @@ export default function MainHeader() {
           <AvatarImage src={avatar} />
           <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
         </Avatar>
-        {selectedConversation.group && (
+        {conversation.group && (
           <FaUserGroup className="absolute bottom-0 right-0 text-foreground" />
         )}
       </div>

@@ -27,7 +27,7 @@ class ConversationController extends Controller
                 'id' => $conversation->id,
                 'title' => $conversation->title,
                 'group' => $conversation->group,
-                'avatar' => $conversation->avatar ?? 'https://cdn.jsdelivr.net/gh/alohe/memojis/png/vibrent_1.png', // fallback
+                'avatar' => $conversation->avatar,
                 'members' => $members,
             ];
         });
@@ -57,17 +57,31 @@ class ConversationController extends Controller
             }
         }
 
-        return Conversation::create($fields);
+        $data = Conversation::create($fields);
+
+        return response()->json($data, 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Conversation $conversation)
+    public function show(Request $request, Conversation $conversation)
     {
         Gate::authorize('update', $conversation);
 
-        return response()->json($conversation, 200);
+        $members = User::whereIn('id', $conversation->members)->get(['id', 'username', 'avatar']);
+
+        $members = $members->filter(fn($m) => $m->id !== $request->user()->id)->values();
+
+        $data = [
+            'id' => $conversation->id,
+            'title' => $conversation->title,
+            'group' => $conversation->group,
+            'avatar' => $conversation->avatar,
+            'members' => $members,
+        ];
+
+        return response()->json($data, 200);
     }
 
     /**

@@ -1,13 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Conversation from "./Conversation";
-import { conversations } from "../../data/conversations";
+import { useMainContext } from "../../contexts/MainContext";
+import { Client } from "../../axios/axios";
+import Spinner from "../animations/Spinner";
 
 export default function Conversations() {
+  const { token } = useMainContext();
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchUser = async () => {
+    setLoading(true);
+
+    try {
+      const response = await Client.get(`/api/conversations`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setConversations(response.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <main className="space-y-2 p-2">
-      {conversations.map((conversation) => (
-        <Conversation key={conversation.id} conversation={conversation} />
-      ))}
+      {loading ? (
+        <Spinner />
+      ) : conversations ? (
+        conversations.map((conversation) => (
+          <Conversation key={conversation.id} conversation={conversation} />
+        ))
+      ) : (
+        "No conversations found"
+      )}
     </main>
   );
 }

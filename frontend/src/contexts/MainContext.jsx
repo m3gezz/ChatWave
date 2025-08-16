@@ -17,8 +17,8 @@ export default function MainContext({ children }) {
 
   const lik = { id: 1, username: "amine", email_verified_at: 6 };
 
-  const [user, setUser] = useState(lik);
-  const [token, setToken] = useState(localStorage.getItem("TOKEN") || 123);
+  const [user, setUser] = useState(parsedUser);
+  const [token, setToken] = useState(localStorage.getItem("TOKEN") || null);
   const [conversationId, setConversationId] = useState(null);
 
   const handleUser = (user) => {
@@ -50,9 +50,9 @@ export default function MainContext({ children }) {
       value={{
         user,
         token,
+        conversationId,
         handleUser,
         handleToken,
-        conversationId,
         handleCurrentConversation,
       }}
     >
