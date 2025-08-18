@@ -19,7 +19,9 @@ export default function MainContext({ children }) {
 
   const [user, setUser] = useState(parsedUser);
   const [token, setToken] = useState(localStorage.getItem("TOKEN") || null);
-  const [conversationId, setConversationId] = useState(null);
+  const [conversationId, setConversationId] = useState(
+    localStorage.getItem("CONVERSATION") || null
+  );
 
   const handleUser = (user) => {
     setUser(user);
@@ -43,6 +45,12 @@ export default function MainContext({ children }) {
 
   const handleCurrentConversation = (conversationId) => {
     setConversationId(conversationId);
+
+    if (conversationId) {
+      localStorage.setItem("CONVERSATION", conversationId);
+    } else {
+      localStorage.removeItem("CONVERSATION");
+    }
   };
 
   return (

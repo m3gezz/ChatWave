@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
+            $table->string('avatar')->nullable();
             $table->json('members');
             $table->boolean('group')->default(false);
+            $table->integer('id_creator');
             $table->timestamps();
         });
     }

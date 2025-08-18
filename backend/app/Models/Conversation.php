@@ -12,8 +12,10 @@ class Conversation extends Model
 
     protected $fillable = [
         'title',
-        'members',
+        'avatar',
         'group',
+        'members',
+        'id_creator',
     ];
 
     protected $casts = [

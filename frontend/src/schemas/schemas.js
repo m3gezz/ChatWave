@@ -117,3 +117,24 @@ export const resetPasswordSchema = z
     message: "Passwords must match",
     path: ["password_confirmation"],
   });
+
+export const groupCreationSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(4, {
+      message: "Title must be at least 4 characters.",
+    })
+    .max(40, {
+      message: "Title must not be over 40 characters.",
+    }),
+  members: z
+    .array(z.string())
+    .min(1, "Pick at least one member")
+    .max(5, "Pick 5 or less member"),
+  avatar: z.string(),
+});
+
+export const conversationCreationSchema = z.object({
+  members: z.string({ message: "Pick a member" }),
+});

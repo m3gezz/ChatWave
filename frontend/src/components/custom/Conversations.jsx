@@ -33,12 +33,12 @@ export default function Conversations() {
     <main className="space-y-2 p-2">
       {loading ? (
         <Spinner />
-      ) : conversations ? (
+      ) : conversations.length ? (
         conversations.map((conversation) => (
           <Conversation key={conversation.id} conversation={conversation} />
         ))
       ) : (
-        "No conversations found"
+        "None found"
       )}
     </main>
   );

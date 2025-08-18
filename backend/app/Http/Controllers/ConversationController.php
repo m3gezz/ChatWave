@@ -42,6 +42,7 @@ class ConversationController extends Controller
     {
         $fields = $request->validate([
             'title' => 'nullable|string',
+            'avatar' => 'nullable|string',
             'members' => 'required|array|min:2',
             'group' => 'required|boolean',
         ]);
@@ -57,6 +58,8 @@ class ConversationController extends Controller
             }
         }
 
+        $fields['id_creator'] = $request->user()->id;
+
         $data = Conversation::create($fields);
 
         return response()->json($data, 200);
@@ -70,6 +73,7 @@ class ConversationController extends Controller
         Gate::authorize('update', $conversation);
 
         $members = User::whereIn('id', $conversation->members)->get(['id', 'username', 'avatar']);
+        $creator = User::where('id', $conversation->id_creator)->get(['id', 'username', 'avatar']);
 
         $members = $members->filter(fn($m) => $m->id !== $request->user()->id)->values();
 
@@ -79,6 +83,7 @@ class ConversationController extends Controller
             'group' => $conversation->group,
             'avatar' => $conversation->avatar,
             'members' => $members,
+            'creator' => $creator,
         ];
 
         return response()->json($data, 200);

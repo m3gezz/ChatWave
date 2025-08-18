@@ -7,16 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
-use function Pest\Laravel\json;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = User::where('admin', false)->get();
+        $data = User::where('admin', false)->where('id', '!=', $request->user()->id)->get();
 
         return response()->json($data, 200);
     }
