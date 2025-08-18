@@ -16,7 +16,7 @@ class ConversationController extends Controller
     {
         $userId = $request->user()->id;
 
-        $conversations = Conversation::whereJsonContains('members', [$userId])->get();
+        $conversations = Conversation::whereJsonContains('members', [$userId])->orderBy('created_at', 'desc')->get();
 
         $data = $conversations->map(function ($conversation) use($userId) {
             $members = User::whereIn('id', $conversation->members)->get(['id', 'username', 'avatar']);
