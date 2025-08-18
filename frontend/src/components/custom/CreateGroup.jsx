@@ -17,11 +17,15 @@ import { useForm } from "react-hook-form";
 import Error from "./Error";
 import { groupCreationSchema } from "../../schemas/schemas";
 import { avatars } from "../../data/avatars";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateGroup() {
-  const { user, token } = useMainContext();
+  const { user, token, handleCurrentConversation } = useMainContext();
   const [users, setUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const form = useForm({
     resolver: zodResolver(groupCreationSchema),
     defaultValues: {
@@ -32,16 +36,28 @@ export default function CreateGroup() {
   });
   const selectedAvatar = form.watch("avatar");
 
-  function onSubmit(data) {
+  const onSubmit = async (data) => {
     const members = data.members.map(Number);
     data.members = [user.id, ...members];
     data.group = true;
 
-    console.log(data);
-  }
+    setLoading(true);
+    try {
+      const response = await Client.post(`/api/conversations`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      handleCurrentConversation(response.data.id);
+      navigate("/guest");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchUsers = async () => {
-    setLoading(true);
+    setUsersLoading(true);
 
     try {
       const response = await Client.get(`/api/users`, {
@@ -52,7 +68,7 @@ export default function CreateGroup() {
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false);
+      setUsersLoading(false);
     }
   };
 
@@ -116,7 +132,7 @@ export default function CreateGroup() {
           </div>
         </div>
         <div className="space-y-2">
-          {loading ? (
+          {usersLoading ? (
             <div className="mx-auto w-fit">
               <Spinner />
             </div>
@@ -151,7 +167,7 @@ export default function CreateGroup() {
           <Error>{form.formState.errors.members.message}</Error>
         )}
         <Button disabled={loading} className={"w-full"}>
-          Create
+          {loading ? <Spinner /> : "Create"}
         </Button>
       </form>
     </DialogContent>

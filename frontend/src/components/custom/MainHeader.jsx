@@ -3,8 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaUserGroup } from "react-icons/fa6";
 
 export default function MainHeader({ conversation }) {
-  console.log(conversation);
-
   let displayName = "";
   let avatar = "";
   let initial = "";

@@ -16,11 +16,15 @@ import { Button } from "@/components/ui/button";
 import { Client } from "../../axios/axios";
 import Spinner from "../animations/Spinner";
 import Error from "./Error";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateConversation() {
-  const { user, token } = useMainContext();
+  const { user, token, handleCurrentConversation } = useMainContext();
   const [users, setUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const form = useForm({
     resolver: zodResolver(conversationCreationSchema),
     defaultValues: {
@@ -28,14 +32,27 @@ export default function CreateConversation() {
     },
   });
 
-  function onSubmit(data) {
+  const onSubmit = async (data) => {
     data.members = [user.id, Number(data.members)];
     data.group = false;
-    console.log(data);
-  }
+
+    setLoading(true);
+    try {
+      const response = await Client.post(`/api/conversations`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      handleCurrentConversation(response.data.id);
+      navigate("/guest");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchUsers = async () => {
-    setLoading(true);
+    setUsersLoading(true);
 
     try {
       const response = await Client.get(`/api/users`, {
@@ -46,7 +63,7 @@ export default function CreateConversation() {
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false);
+      setUsersLoading(false);
     }
   };
 
@@ -65,7 +82,7 @@ export default function CreateConversation() {
       </DialogHeader>
       <form className="space-y-2.5" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="space-y-2">
-          {loading ? (
+          {usersLoading ? (
             <div className="mx-auto w-fit">
               <Spinner />
             </div>
@@ -100,7 +117,7 @@ export default function CreateConversation() {
           <Error>{form.formState.errors.members.message}</Error>
         )}
         <Button disabled={loading} className={"w-full"}>
-          Create
+          {loading ? <Spinner /> : "Create"}
         </Button>
       </form>
     </DialogContent>
