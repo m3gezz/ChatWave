@@ -30,7 +30,7 @@ export default function Conversations() {
   }, []);
 
   return (
-    <main className="space-y-2 p-2">
+    <main className="space-y-2 p-2 flex flex-col overflow-scroll max-h-screen">
       {loading ? (
         <Spinner />
       ) : conversations.length ? (
