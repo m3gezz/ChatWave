@@ -3,6 +3,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaUserGroup } from "react-icons/fa6";
 
 export default function MainHeader({ conversation }) {
+  console.log(conversation);
+
   let displayName = "";
   let avatar = "";
   let initial = "";
@@ -30,6 +32,9 @@ export default function MainHeader({ conversation }) {
         )}
       </div>
       <span>{displayName}</span>
+      <span className="text-[10px] border-2 px-1 rounded-2xl">
+        creator : {conversation.creator && conversation.creator[0].username}
+      </span>
     </header>
   );
 }

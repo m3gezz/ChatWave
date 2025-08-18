@@ -136,7 +136,7 @@ export default function CreateGroup() {
                 />
                 <Avatar>
                   <AvatarImage src={user.avatar} />
-                  <AvatarFallback>
+                  <AvatarFallback className={"border-2"}>
                     {user.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
