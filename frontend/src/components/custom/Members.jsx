@@ -16,20 +16,20 @@ export default function Members({ members }) {
           Those are the current members in this conversation.
         </DialogDescription>
         <main className="flex flex-col gap-2.5">
-          {members.map((user) => (
+          {members.map((member) => (
             <div
-              key={user.id}
+              key={member.id}
               className="flex bg-accent items-center justify-start gap-2.5 p-2 rounded-md hover:bg-accent-foreground hover:text-muted-foreground transition-all"
             >
               <Avatar>
-                <AvatarImage src={user.avatar} />
+                <AvatarImage src={member.avatar} />
                 <AvatarFallback className={"border-2"}>
-                  {user.username.charAt(0).toUpperCase()}
+                  {member.username.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start">
-                <strong>{user.username}</strong>
-                <small>{user.email}</small>
+                <strong>{member.username}</strong>
+                <small>{member.email}</small>
               </div>
             </div>
           ))}
