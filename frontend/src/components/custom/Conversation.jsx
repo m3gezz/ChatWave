@@ -12,13 +12,17 @@ export default function Conversation({ conversation }) {
 
   if (conversation.group) {
     displayName = conversation.title ?? "Unnamed Group";
-    avatar = conversation.avatar ?? "";
+    avatar = conversation.avatar ?? "G";
     initial = displayName.charAt(0).toUpperCase();
   } else if (conversation.members && conversation.members.length > 0) {
     const member = conversation.members[0];
     displayName = member.username ?? "Unknown User";
-    avatar = member.avatar ?? "";
+    avatar = member.avatar ?? "U";
     initial = member.username?.charAt(0).toUpperCase() ?? "U";
+  } else if (conversation.members && conversation.members.length <= 0) {
+    displayName = "User Left";
+    avatar = "U";
+    initial = "U";
   }
 
   const handleClick = () => {
@@ -29,7 +33,7 @@ export default function Conversation({ conversation }) {
     <main
       onClick={handleClick}
       className={`flex flex-col text-center items-center md:flex-row border-1 hover:bg-accent ${
-        conversationId === conversation.id && "bg-accent"
+        conversationId == conversation.id && "bg-accent"
       } active:scale-95 transition-all rounded-md py-2 px-3 gap-2.5`}
     >
       <div className="relative">

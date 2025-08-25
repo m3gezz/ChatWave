@@ -138,3 +138,7 @@ export const groupCreationSchema = z.object({
 export const conversationCreationSchema = z.object({
   members: z.string({ message: "Pick a member" }),
 });
+
+export const messageSchema = z.object({
+  message: z.string().trim().min(1).max(255),
+});

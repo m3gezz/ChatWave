@@ -4,6 +4,7 @@ import { useMainContext } from "../../contexts/MainContext";
 import ConversationPlaceholder from "./ConversationPlaceholder";
 import { Client } from "../../axios/axios";
 import Spinner from "../animations/Spinner";
+import MessageSect from "./MessageSect";
 
 export default function MainSect() {
   const { token, conversationId } = useMainContext();
@@ -36,14 +37,17 @@ export default function MainSect() {
   }, [conversationId]);
 
   return (
-    <main className="border-2 flex-1 rounded-br-md rounded-tr-md">
+    <main className="border-2 flex-1 flex flex-col rounded-br-md rounded-tr-md">
       {conversationId ? (
         loading ? (
           <div className="flex justify-center items-center h-[60%]">
             <Spinner />
           </div>
         ) : (
-          <MainHeader conversation={conversation ?? {}} />
+          <>
+            <MainHeader conversation={conversation ?? {}} />
+            <MessageSect />
+          </>
         )
       ) : (
         <ConversationPlaceholder />

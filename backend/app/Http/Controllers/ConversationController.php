@@ -19,7 +19,7 @@ class ConversationController extends Controller
         $conversations = Conversation::whereJsonContains('members', [$userId])->orderBy('created_at', 'desc')->get();
 
         $data = $conversations->map(function ($conversation) use($userId) {
-            $members = User::whereIn('id', $conversation->members)->get(['id', 'username', 'avatar']);
+            $members = User::whereIn('id', $conversation->members)->get(['id', 'username', 'email', 'avatar']);
 
             $members = $members->filter(fn($m) => $m->id !== $userId)->values();
 
@@ -72,8 +72,8 @@ class ConversationController extends Controller
     {
         Gate::authorize('update', $conversation);
 
-        $members = User::whereIn('id', $conversation->members)->get(['id', 'username', 'avatar']);
-        $creator = User::where('id', $conversation->id_creator)->get(['id', 'username', 'avatar']);
+        $members = User::whereIn('id', $conversation->members)->get(['id', 'username', 'email', 'avatar']);
+        $creator = User::where('id', $conversation->id_creator)->get(['id', 'username', 'email', 'avatar']);
 
         $members = $members->filter(fn($m) => $m->id !== $request->user()->id)->values();
 
@@ -101,13 +101,9 @@ class ConversationController extends Controller
             'members' => 'sometimes|required|array|min:1',
         ]);
 
-        if ($conversation->group) {
-            
-            $conversation->update($fields);
-            return response()->json($conversation, 200);
-        }
+        $conversation->update($fields);
+        return response()->json($conversation, 200);
         
-        return response()->json(['message' => 'you can not update 1 on 1 conversations'], 403);
     }
 
     /**
