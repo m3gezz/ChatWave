@@ -86,12 +86,12 @@ export default function CreateConversation() {
             <div className="mx-auto w-fit">
               <Spinner />
             </div>
-          ) : users ? (
+          ) : users.length ? (
             users.map((user) => (
               <Label
                 key={user.id}
                 htmlFor={user.id}
-                className="flex bg-accent items-center justify-start gap-2.5 p-2 rounded-md hover:bg-accent-foreground hover:text-accent active:scale-95 transition-all"
+                className="flex bg-accent items-center justify-start gap-2.5 p-2 rounded-md hover:bg-accent-foreground hover:text-muted-foreground active:scale-95 transition-all"
               >
                 <Input
                   id={user.id}
@@ -110,13 +110,13 @@ export default function CreateConversation() {
               </Label>
             ))
           ) : (
-            "No users found"
+            <p className="text-center">No users found</p>
           )}
         </div>
         {form.formState.errors.members && (
           <Error>{form.formState.errors.members.message}</Error>
         )}
-        <Button disabled={loading} className={"w-full"}>
+        <Button disabled={loading || !users.length} className={"w-full"}>
           {loading ? <Spinner /> : "Create"}
         </Button>
       </form>

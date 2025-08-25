@@ -31,6 +31,7 @@ export default function Conversations() {
 
   return (
     <main className="space-y-2 p-2 flex flex-col overflow-scroll max-h-screen">
+      <p className="text-center border-b-1">Recent chats</p>
       {loading ? (
         <Spinner />
       ) : conversations.length ? (
@@ -38,7 +39,7 @@ export default function Conversations() {
           <Conversation key={conversation.id} conversation={conversation} />
         ))
       ) : (
-        "None found"
+        <p className="text-center">None found</p>
       )}
     </main>
   );

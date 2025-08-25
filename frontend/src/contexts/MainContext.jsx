@@ -15,8 +15,6 @@ export default function MainContext({ children }) {
     ? JSON.parse(localStorage.getItem("USER"))
     : {};
 
-  const lik = { id: 1, username: "amine", email_verified_at: 6 };
-
   const [user, setUser] = useState(parsedUser);
   const [token, setToken] = useState(localStorage.getItem("TOKEN") || null);
   const [conversationId, setConversationId] = useState(

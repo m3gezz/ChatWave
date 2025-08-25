@@ -1,15 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { MdGroupAdd } from "react-icons/md";
 import { HiUserAdd } from "react-icons/hi";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import CreateConversation from "./CreateConversation";
 import CreateGroup from "./CreateGroup";
 

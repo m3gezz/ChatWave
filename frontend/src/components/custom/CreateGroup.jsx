@@ -93,8 +93,8 @@ export default function CreateGroup() {
             <Error>{form.formState.errors.title.message}</Error>
           )}
         </div>
-        <div className="flex flex-wrap justify-center items-center gap-3.5 py-3.5">
-          {avatars.slice(0, 10).map((avatar, index) => (
+        <div className="flex select-none flex-wrap justify-center items-center gap-3.5 py-3.5">
+          {avatars.map((avatar, index) => (
             <div key={index}>
               <input
                 type="radio"
@@ -128,7 +128,9 @@ export default function CreateGroup() {
               className={`cursor-pointer flex items-center justify-center bg-foreground text-background w-10 h-10 rounded-full ${
                 selectedAvatar === "none" && "border-3 border-muted-foreground"
               }`}
-            ></label>
+            >
+              G
+            </label>
           </div>
         </div>
         <div className="space-y-2">
@@ -136,12 +138,12 @@ export default function CreateGroup() {
             <div className="mx-auto w-fit">
               <Spinner />
             </div>
-          ) : users ? (
+          ) : users.length ? (
             users.map((user) => (
               <Label
                 key={user.id}
                 htmlFor={user.id}
-                className="flex bg-accent items-center justify-start gap-2.5 p-2 rounded-md hover:bg-accent-foreground hover:text-accent active:scale-95 transition-all"
+                className="flex bg-accent items-center justify-start gap-2.5 p-2 rounded-md hover:bg-accent-foreground hover:text-muted-foreground active:scale-95 transition-all"
               >
                 <Input
                   id={user.id}
@@ -160,13 +162,13 @@ export default function CreateGroup() {
               </Label>
             ))
           ) : (
-            "No users found"
+            <p className="text-center">No users found</p>
           )}
         </div>
         {form.formState.errors.members && (
           <Error>{form.formState.errors.members.message}</Error>
         )}
-        <Button disabled={loading} className={"w-full"}>
+        <Button disabled={loading || !users.length} className={"w-full"}>
           {loading ? <Spinner /> : "Create"}
         </Button>
       </form>

@@ -4,7 +4,7 @@ import { useMainContext } from "../../contexts/MainContext";
 import { FaUserGroup } from "react-icons/fa6";
 
 export default function Conversation({ conversation }) {
-  const { handleCurrentConversation } = useMainContext();
+  const { conversationId, handleCurrentConversation } = useMainContext();
 
   let displayName = "";
   let avatar = "";
@@ -28,7 +28,9 @@ export default function Conversation({ conversation }) {
   return (
     <main
       onClick={handleClick}
-      className="flex flex-col text-center items-center md:flex-row border-1 hover:bg-accent active:scale-95 transition-all rounded-md py-2 px-3 gap-2.5"
+      className={`flex flex-col text-center items-center md:flex-row border-1 hover:bg-accent ${
+        conversationId === conversation.id && "bg-accent"
+      } active:scale-95 transition-all rounded-md py-2 px-3 gap-2.5`}
     >
       <div className="relative">
         <Avatar className={"w-10 h-10 "}>
