@@ -29,7 +29,11 @@ export default function MessageFooter() {
         placeholder="Type here..."
         {...form.register("message")}
       />
-      <Button className={"h-10 rounded-full"}>
+      <Button
+        className={
+          "h-10 rounded-full active:scale-95 cursor-pointer transition-all"
+        }
+      >
         <FaTelegramPlane />
       </Button>
     </form>

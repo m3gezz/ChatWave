@@ -106,7 +106,11 @@ export default function MainHeader({ conversation }) {
           : conversation.creator && conversation.creator[0].username}
       </span>
       <DropdownMenu>
-        <DropdownMenuTrigger className={"p-2 rounded-full"}>
+        <DropdownMenuTrigger
+          className={
+            "p-2.5 rounded-full cursor-pointer hover:bg-accent transition-all"
+          }
+        >
           <FaEllipsisVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
