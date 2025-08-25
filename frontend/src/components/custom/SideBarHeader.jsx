@@ -43,7 +43,7 @@ export default function SideBarHeader() {
   return (
     <header className="h-18 flex items-center border-b-2 md:justify-between md:px-4.5 gap-2 justify-center">
       <DropdownMenu>
-        <DropdownMenuTrigger className={"cursor-pointer"}>
+        <DropdownMenuTrigger className={"cursor-pointer rounded-full"}>
           <Avatar className={"w-10 h-10"}>
             <AvatarImage src={user.avatar} />
             <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
