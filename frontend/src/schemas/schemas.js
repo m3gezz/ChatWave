@@ -142,3 +142,16 @@ export const conversationCreationSchema = z.object({
 export const messageSchema = z.object({
   message: z.string().trim().min(1).max(255),
 });
+
+export const groupEditSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(4, {
+      message: "Title must be at least 4 characters.",
+    })
+    .max(40, {
+      message: "Title must not be over 40 characters.",
+    }),
+  avatar: z.string(),
+});

@@ -17,6 +17,7 @@ import { Client } from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
 import Members from "./Members";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import GroupEdit from "./GroupEdit";
 
 export default function MainHeader({ conversation }) {
   const { user, token, handleCurrentConversation } = useMainContext();
@@ -127,7 +128,14 @@ export default function MainHeader({ conversation }) {
                 <Members members={[user, ...conversation.members]} />
               </Dialog>
               {conversation.creator[0].id == user.id && (
-                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <Dialog>
+                  <DialogTrigger className={"w-full"}>
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                      Edit
+                    </DropdownMenuItem>
+                  </DialogTrigger>
+                  <GroupEdit conversation={conversation} />
+                </Dialog>
               )}
             </>
           )}
