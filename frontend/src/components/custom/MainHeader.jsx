@@ -19,24 +19,32 @@ import Members from "./Members";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import GroupEdit from "./GroupEdit";
 
-export default function MainHeader({ conversation }) {
-  const { user, token, handleCurrentConversation } = useMainContext();
+export default function MainHeader() {
+  const {
+    user,
+    token,
+    conversationObject,
+    handleCurrentConversation,
+    handleConversationObject,
+  } = useMainContext();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLeave = async () => {
     setLoading(true);
     const members =
-      conversation.members && conversation.members.map((member) => member.id);
+      conversationObject.members &&
+      conversationObject.members.map((member) => member.id);
     const data = {
       members: members,
     };
 
     try {
-      await Client.patch(`/api/conversations/${conversation.id}`, data, {
+      await Client.patch(`/api/conversations/${conversationObject.id}`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
       handleCurrentConversation(null);
+      handleConversationObject({});
       navigate("/guest");
     } catch (err) {
       console.error(err);
@@ -50,7 +58,7 @@ export default function MainHeader({ conversation }) {
 
     try {
       await Client.post(
-        `/api/conversations/${conversation.id}`,
+        `/api/conversations/${conversationObject.id}`,
         {
           _method: "DELETE",
         },
@@ -59,6 +67,7 @@ export default function MainHeader({ conversation }) {
         }
       );
       handleCurrentConversation(null);
+      handleConversationObject({});
       navigate("/guest");
     } catch (err) {
       console.error(err);
@@ -71,16 +80,22 @@ export default function MainHeader({ conversation }) {
   let avatar = "";
   let initial = "";
 
-  if (conversation.group) {
-    displayName = conversation.title ?? "Unnamed Group";
-    avatar = conversation.avatar ?? "";
+  if (conversationObject.group) {
+    displayName = conversationObject.title ?? "Unnamed Group";
+    avatar = conversationObject.avatar ?? "";
     initial = displayName.charAt(0).toUpperCase();
-  } else if (conversation.members && conversation.members.length > 0) {
-    const member = conversation.members[0];
+  } else if (
+    conversationObject.members &&
+    conversationObject.members.length > 0
+  ) {
+    const member = conversationObject.members[0];
     displayName = member.username ?? "Unknown User";
     avatar = member.avatar ?? "";
     initial = member.username?.charAt(0).toUpperCase() ?? "U";
-  } else if (conversation.members && conversation.members.length <= 0) {
+  } else if (
+    conversationObject.members &&
+    conversationObject.members.length <= 0
+  ) {
     displayName = "User Left";
     avatar = "U";
     initial = "U";
@@ -94,7 +109,7 @@ export default function MainHeader({ conversation }) {
             <AvatarImage src={avatar} />
             <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
           </Avatar>
-          {conversation.group && (
+          {conversationObject.group && (
             <FaUserGroup className="absolute bottom-0 right-0 text-foreground" />
           )}
         </div>
@@ -102,9 +117,11 @@ export default function MainHeader({ conversation }) {
       </div>
       <span className="text-sm text-center opacity-80 absolute bottom-[-70%] border-2 rounded-sm px-2 left-[50%] translate-x-[-50%]">
         created by :{" "}
-        {conversation.creator && conversation.creator[0].id === user.id
+        {conversationObject.creator &&
+        conversationObject.creator[0].id === user.id
           ? "You"
-          : conversation.creator && conversation.creator[0].username}
+          : conversationObject.creator &&
+            conversationObject.creator[0].username}
       </span>
       <DropdownMenu>
         <DropdownMenuTrigger
@@ -117,7 +134,7 @@ export default function MainHeader({ conversation }) {
         <DropdownMenuContent>
           <DropdownMenuLabel>Chat</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {conversation.group && (
+          {conversationObject.group && (
             <>
               <Dialog>
                 <DialogTrigger className={"w-full"}>
@@ -125,22 +142,24 @@ export default function MainHeader({ conversation }) {
                     members
                   </DropdownMenuItem>
                 </DialogTrigger>
-                <Members members={[user, ...conversation.members]} />
+                <Members conversation={conversationObject} />
               </Dialog>
-              {conversation.creator[0].id == user.id && (
-                <Dialog>
-                  <DialogTrigger className={"w-full"}>
-                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                      Edit
-                    </DropdownMenuItem>
-                  </DialogTrigger>
-                  <GroupEdit conversation={conversation} />
-                </Dialog>
-              )}
+              {conversationObject.creator &&
+                conversationObject.creator[0].id == user.id && (
+                  <Dialog>
+                    <DialogTrigger className={"w-full"}>
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        Edit
+                      </DropdownMenuItem>
+                    </DialogTrigger>
+                    <GroupEdit />
+                  </Dialog>
+                )}
             </>
           )}
 
-          {conversation.creator && conversation.creator[0].id === user.id ? (
+          {conversationObject.creator &&
+          conversationObject.creator[0].id === user.id ? (
             <DropdownMenuItem>
               <Button
                 variant={"destructive"}

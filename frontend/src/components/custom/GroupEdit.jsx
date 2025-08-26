@@ -20,23 +20,26 @@ import { groupEditSchema } from "../../schemas/schemas";
 import Error from "./Error";
 import { Client } from "../../axios/axios";
 
-export default function GroupEdit({ conversation }) {
-  const { token, handleCurrentConversation } = useMainContext();
+export default function GroupEdit() {
+  const { token, conversationObject } = useMainContext();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(groupEditSchema),
-    defaultValues: { title: conversation.title, avatar: conversation.avatar },
+    defaultValues: {
+      title: conversationObject.title,
+      avatar: conversationObject.avatar,
+    },
   });
   const selectedAvatar = form.watch("avatar");
 
-  const initial = conversation.title.charAt(0).toUpperCase();
+  const initial = conversationObject.title.charAt(0).toUpperCase();
 
   const handleOnSubmit = async (data) => {
     if (
-      data.title.trim() === conversation.title &&
-      conversation.avatar === selectedAvatar
+      data.title.trim() === conversationObject.title &&
+      conversationObject.avatar === selectedAvatar
     ) {
       form.setError("title", {
         type: "manual",
@@ -47,15 +50,10 @@ export default function GroupEdit({ conversation }) {
 
     setLoading(true);
     try {
-      const response = await Client.patch(
-        `/api/conversations/${conversation.id}`,
-        data,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      // handleCurrentConversation(response.data.id);
-      navigate("/user");
+      await Client.patch(`/api/conversations/${conversationObject.id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      navigate("/guest");
     } catch (err) {
       console.error(err);
     } finally {

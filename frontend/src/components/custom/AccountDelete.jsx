@@ -33,7 +33,7 @@ export default function AccountDelete() {
   const handleOnSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await Client.post(
+      await Client.post(
         `/api/users/${user.id}`,
         {
           _method: "DELETE",

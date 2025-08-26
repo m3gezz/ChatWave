@@ -7,8 +7,7 @@ import Spinner from "../animations/Spinner";
 import MessageSect from "./MessageSect";
 
 export default function MainSect() {
-  const { token, conversationId } = useMainContext();
-  const [conversation, setConversation] = useState(null);
+  const { token, conversationId, handleConversationObject } = useMainContext();
   const [loading, setLoading] = useState(false);
 
   const fetchConversation = async () => {
@@ -22,7 +21,7 @@ export default function MainSect() {
         }
       );
 
-      setConversation(response.data);
+      handleConversationObject(response.data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -45,7 +44,7 @@ export default function MainSect() {
           </div>
         ) : (
           <>
-            <MainHeader conversation={conversation ?? {}} />
+            <MainHeader />
             <MessageSect />
           </>
         )

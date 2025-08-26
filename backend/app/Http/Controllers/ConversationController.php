@@ -98,6 +98,7 @@ class ConversationController extends Controller
 
         $fields = $request->validate([
             'title' => 'sometimes|required|string',
+            'avatar' => 'sometimes|required|string',
             'members' => 'sometimes|required|array|min:1',
         ]);
 

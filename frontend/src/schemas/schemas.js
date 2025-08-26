@@ -155,3 +155,7 @@ export const groupEditSchema = z.object({
     }),
   avatar: z.string(),
 });
+
+export const membersEditSchema = z.object({
+  members: z.array(z.string()).min(0).max(5, "Pick 5 or less member"),
+});

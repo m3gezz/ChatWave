@@ -16,8 +16,14 @@ import { Client } from "../../axios/axios";
 
 export default function SideBarHeader() {
   const [loading, setLoading] = useState(false);
-  const { user, token, handleUser, handleToken, handleCurrentConversation } =
-    useMainContext();
+  const {
+    user,
+    token,
+    handleUser,
+    handleToken,
+    handleCurrentConversation,
+    handleConversationObject,
+  } = useMainContext();
 
   const initial = user.username.charAt(0).toUpperCase();
 
@@ -33,6 +39,7 @@ export default function SideBarHeader() {
       handleUser({});
       handleToken(null);
       handleCurrentConversation(null);
+      handleConversationObject({});
     } catch (err) {
       console.error(err);
     } finally {

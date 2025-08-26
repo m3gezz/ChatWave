@@ -4,10 +4,12 @@ import { useContext, createContext } from "react";
 const Context = createContext({
   user: {},
   token: null,
+  conversationId: null,
+  conversationObject: {},
   handleUser: () => {},
   handleToken: () => {},
-  conversationId: null,
   handleCurrentConversation: () => {},
+  handleConversationObject: () => {},
 });
 
 export default function MainContext({ children }) {
@@ -15,11 +17,17 @@ export default function MainContext({ children }) {
     ? JSON.parse(localStorage.getItem("USER"))
     : {};
 
+  const parsedConversation = localStorage.getItem("CONVERSATION_OBJECT")
+    ? JSON.parse(localStorage.getItem("CONVERSATION_OBJECT"))
+    : {};
+
   const [user, setUser] = useState(parsedUser);
   const [token, setToken] = useState(localStorage.getItem("TOKEN") || null);
   const [conversationId, setConversationId] = useState(
     localStorage.getItem("CONVERSATION") || null
   );
+  const [conversationObject, setConversationObject] =
+    useState(parsedConversation);
 
   const handleUser = (user) => {
     setUser(user);
@@ -51,15 +59,30 @@ export default function MainContext({ children }) {
     }
   };
 
+  const handleConversationObject = (conversationObject) => {
+    setConversationObject(conversationObject);
+
+    if (conversationObject) {
+      localStorage.setItem(
+        "CONVERSATION_OBJECT",
+        JSON.stringify(conversationObject)
+      );
+    } else {
+      localStorage.removeItem("CONVERSATION_OBJECT");
+    }
+  };
+
   return (
     <Context.Provider
       value={{
         user,
         token,
         conversationId,
+        conversationObject,
         handleUser,
         handleToken,
         handleCurrentConversation,
+        handleConversationObject,
       }}
     >
       {children}
