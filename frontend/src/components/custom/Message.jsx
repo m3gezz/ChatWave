@@ -19,8 +19,10 @@ export default function Message({ message }) {
       </small>
       <div
         className={`${
-          user.id == message.sender.id && "bg-muted"
-        } rounded-lg px-3 py-2 bg-accent text-wrap overflow-hidden truncate`}
+          user.id == message.sender.id
+            ? "bg-foreground text-background"
+            : "bg-secondary text-foreground"
+        } rounded-lg px-3 py-2 text-wrap overflow-hidden truncate`}
       >
         {message.content}
       </div>

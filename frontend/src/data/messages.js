@@ -2,7 +2,7 @@ export const messages = [
   {
     content: "sbah lkhir",
     sender: {
-      id: 3,
+      id: 2,
       username: "amine",
     },
     date: 1,
@@ -10,7 +10,7 @@ export const messages = [
   {
     content: "labas 3lik",
     sender: {
-      id: 3,
+      id: 2,
       username: "amine",
     },
     date: 2,
@@ -18,7 +18,7 @@ export const messages = [
   {
     content: "sbah nor a n3ass",
     sender: {
-      id: 2,
+      id: 1,
       username: "ibtissam",
     },
     date: 3,
@@ -26,7 +26,7 @@ export const messages = [
   {
     content: "chhal sa3a db al3roby hhhh",
     sender: {
-      id: 2,
+      id: 1,
       username: "ibtissam",
     },
     date: 4,
@@ -34,15 +34,16 @@ export const messages = [
   {
     content: "sbah lkhir",
     sender: {
-      id: 3,
+      id: 2,
       username: "amine",
     },
     date: 1,
   },
+
   {
     content: "labas 3lik",
     sender: {
-      id: 3,
+      id: 2,
       username: "amine",
     },
     date: 2,
@@ -50,7 +51,7 @@ export const messages = [
   {
     content: "sbah nor a n3ass",
     sender: {
-      id: 2,
+      id: 1,
       username: "ibtissam",
     },
     date: 3,
@@ -58,7 +59,7 @@ export const messages = [
   {
     content: "chhal sa3a db al3roby hhhh",
     sender: {
-      id: 2,
+      id: 1,
       username: "ibtissam",
     },
     date: 4,
@@ -66,7 +67,7 @@ export const messages = [
   {
     content: "sbah lkhir",
     sender: {
-      id: 3,
+      id: 2,
       username: "amine",
     },
     date: 1,
@@ -74,7 +75,7 @@ export const messages = [
   {
     content: "labas 3lik",
     sender: {
-      id: 3,
+      id: 2,
       username: "amine",
     },
     date: 2,
@@ -82,7 +83,7 @@ export const messages = [
   {
     content: "sbah nor a n3ass",
     sender: {
-      id: 2,
+      id: 1,
       username: "ibtissam",
     },
     date: 3,
@@ -90,7 +91,7 @@ export const messages = [
   {
     content: "chhal sa3a db al3roby hhhh",
     sender: {
-      id: 2,
+      id: 1,
       username: "ibtissam",
     },
     date: 4,
@@ -98,7 +99,7 @@ export const messages = [
   {
     content: "sbah lkhir",
     sender: {
-      id: 3,
+      id: 2,
       username: "amine",
     },
     date: 1,
@@ -106,7 +107,7 @@ export const messages = [
   {
     content: "labas 3lik",
     sender: {
-      id: 3,
+      id: 2,
       username: "amine",
     },
     date: 2,
@@ -114,72 +115,48 @@ export const messages = [
   {
     content: "sbah nor a n3ass",
     sender: {
-      id: 2,
-      username: "ibtissam",
-    },
-    date: 3,
-  },
-  {
-    content: "chhal sa3a db al3roby hhhh",
-    sender: {
-      id: 2,
-      username: "ibtissam",
-    },
-    date: 4,
-  },
-  {
-    content: "labas 3lik",
-    sender: {
-      id: 3,
-      username: "amine",
-    },
-    date: 2,
-  },
-  {
-    content: "sbah nor a n3ass",
-    sender: {
-      id: 2,
-      username: "ibtissam",
-    },
-    date: 3,
-  },
-  {
-    content: "chhal sa3a db al3roby hhhh",
-    sender: {
-      id: 2,
-      username: "ibtissam",
-    },
-    date: 4,
-  },
-  {
-    content: "sbah lkhir",
-    sender: {
-      id: 3,
-      username: "amine",
-    },
-    date: 1,
-  },
-  {
-    content: "labas 3lik",
-    sender: {
-      id: 3,
-      username: "amine",
-    },
-    date: 2,
-  },
-  {
-    content: "sbah nor a n3ass",
-    sender: {
-      id: 2,
+      id: 1,
       username: "ibtissam",
     },
     date: 3,
   },
   {
     content:
-      "chhal sa3a db al3roby hhhhhhhhh hhhhhhhhhhh hhhhhhhhh hhhhhhhhh hhhhhhhhhh hhhhhhh",
+      "chhal sa3a db al3roby hhhhhhhhhhhhh hhhhhhhhh hhhhhhhhhh hhhhhhhhhh hhhhhhhhh hhhhhh",
+    sender: {
+      id: 1,
+      username: "ibtissam",
+    },
+    date: 4,
+  },
+  {
+    content: "sbah lkhir",
     sender: {
       id: 2,
+      username: "amine",
+    },
+    date: 1,
+  },
+  {
+    content: "labas 3lik",
+    sender: {
+      id: 2,
+      username: "amine",
+    },
+    date: 2,
+  },
+  {
+    content: "sbah nor a n3ass",
+    sender: {
+      id: 1,
+      username: "ibtissam",
+    },
+    date: 3,
+  },
+  {
+    content: "chhal sa3a db al3roby hhhh",
+    sender: {
+      id: 1,
       username: "ibtissam",
     },
     date: 4,
