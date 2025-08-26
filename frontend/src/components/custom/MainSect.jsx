@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MainHeader from "./MainHeader";
 import { useMainContext } from "../../contexts/MainContext";
 import ConversationPlaceholder from "./ConversationPlaceholder";
 import { Client } from "../../axios/axios";
@@ -44,7 +43,6 @@ export default function MainSect() {
           </div>
         ) : (
           <>
-            <MainHeader />
             <MessageSect />
           </>
         )

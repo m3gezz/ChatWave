@@ -1,9 +1,9 @@
 import React from "react";
 import { MdGroupAdd } from "react-icons/md";
-import { HiUserAdd } from "react-icons/hi";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import CreateConversation from "./CreateConversation";
 import CreateGroup from "./CreateGroup";
+import { FaUserPlus } from "react-icons/fa";
 
 export default function SideBarFooter() {
   return (
@@ -14,7 +14,7 @@ export default function SideBarFooter() {
             "w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-muted-foreground hover:text-background active:scale-95 transition-all"
           }
         >
-          <HiUserAdd className="w-5 h-5" />
+          <FaUserPlus />
         </DialogTrigger>
         <CreateConversation />
       </Dialog>

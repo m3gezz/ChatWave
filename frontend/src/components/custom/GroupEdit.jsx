@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { avatars } from "../../data/avatars";
+import { avatars } from "../../data/groupAvatars";
 import { useNavigate } from "react-router-dom";
 import { useMainContext } from "../../contexts/MainContext";
 import { Button } from "@/components/ui/button";

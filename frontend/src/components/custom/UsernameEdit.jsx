@@ -18,6 +18,7 @@ import { useState } from "react";
 import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
 
 export default function UsernameEdit() {
   const { user, token, handleUser } = useMainContext();
@@ -82,7 +83,13 @@ export default function UsernameEdit() {
             type="submit"
             disabled={username.trim() === user.username || loading}
           >
-            {loading ? <Spinner /> : "Save changes"}
+            {loading ? (
+              <Spinner />
+            ) : (
+              <p className="flex items-center gap-1.5">
+                <FaCheck /> Save
+              </p>
+            )}
           </Button>
         </DialogFooter>
       </form>

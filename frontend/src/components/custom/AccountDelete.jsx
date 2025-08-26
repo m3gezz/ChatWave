@@ -18,6 +18,7 @@ import Error from "./Error";
 import { useState } from "react";
 import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
+import { FaTrash } from "react-icons/fa";
 
 export default function AccountDelete() {
   const { user, token, handleUser, handleToken } = useMainContext();
@@ -87,7 +88,13 @@ export default function AccountDelete() {
             <Button variant="outline">Cancel</Button>
           </DialogClose>
           <Button type="submit" variant={"destructive"} disabled={loading}>
-            {loading ? <Spinner /> : "Delete"}
+            {loading ? (
+              <Spinner />
+            ) : (
+              <p className="flex items-center gap-1.5">
+                <FaTrash /> Delete
+              </p>
+            )}
           </Button>
         </DialogFooter>
       </form>

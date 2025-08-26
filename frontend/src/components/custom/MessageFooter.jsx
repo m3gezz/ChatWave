@@ -1,7 +1,7 @@
 import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { FaTelegramPlane } from "react-icons/fa";
+import { FaPaperPlane } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { messageSchema } from "../../schemas/schemas";
@@ -21,7 +21,7 @@ export default function MessageFooter() {
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className="h-fit flex items-end justify-center gap-3.5 p-2"
+      className="h-fit flex items-end justify-center gap-3.5 p-2 bg-accent"
     >
       <Textarea
         className={"min-h-10 max-w-55 md:max-w-120 resize-none"}
@@ -34,7 +34,7 @@ export default function MessageFooter() {
           "h-10 rounded-full active:scale-95 cursor-pointer transition-all"
         }
       >
-        <FaTelegramPlane />
+        <FaPaperPlane />
       </Button>
     </form>
   );

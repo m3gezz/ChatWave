@@ -18,6 +18,7 @@ import { useState } from "react";
 import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
 
 export default function EmailEdit() {
   const { user, token, handleUser } = useMainContext();
@@ -81,7 +82,13 @@ export default function EmailEdit() {
             <Button variant="outline">Cancel</Button>
           </DialogClose>
           <Button type="submit" disabled={user.email === email || loading}>
-            {loading ? <Spinner /> : "Save changes"}
+            {loading ? (
+              <Spinner />
+            ) : (
+              <p className="flex items-center gap-1.5">
+                <FaCheck /> Save
+              </p>
+            )}
           </Button>
         </DialogFooter>
       </form>

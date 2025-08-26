@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Error from "./Error";
 import { groupCreationSchema } from "../../schemas/schemas";
-import { avatars } from "../../data/avatars";
+import { avatars } from "../../data/groupAvatars";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateGroup() {

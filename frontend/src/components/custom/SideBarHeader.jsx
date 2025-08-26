@@ -8,11 +8,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Spinner from "../animations/Spinner";
 import { useMainContext } from "../../contexts/MainContext";
 import { Client } from "../../axios/axios";
+import { FaUser } from "react-icons/fa";
+import { FaArrowRightFromBracket } from "react-icons/fa6";
 
 export default function SideBarHeader() {
   const [loading, setLoading] = useState(false);
@@ -59,22 +60,23 @@ export default function SideBarHeader() {
         <DropdownMenuContent side="bottom" align="start" sideOffset={8}>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Link className="w-full" to={"/user/profile"}>
+          <Link className="w-full" to={"/user/profile"}>
+            <DropdownMenuItem>
+              <FaUser />
               Profile
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Button
-              variant={"destructive"}
-              disabled={loading}
-              className="w-full cursor-pointer"
-              onClick={handleLogout}
-            >
-              {loading ? <Spinner /> : "Log Out"}
-            </Button>
+          <DropdownMenuItem disabled={loading} onClick={handleLogout}>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <p className="flex items-center gap-1.5">
+                {" "}
+                <FaArrowRightFromBracket />
+                Log Out
+              </p>
+            )}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

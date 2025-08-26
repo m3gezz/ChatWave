@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { membersEditSchema } from "../../schemas/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import { FaCheck, FaPen, FaUserTie } from "react-icons/fa";
 
 export default function Members() {
   const { user, token, conversationObject, handleCurrentConversation } =
@@ -126,7 +127,13 @@ export default function Members() {
               </Label>
             ))}
             <Button disabled={loading || !users.length} className={"w-full"}>
-              {loading ? <Spinner /> : "Modify"}
+              {loading ? (
+                <Spinner />
+              ) : (
+                <p className="flex items-center gap-1.5">
+                  <FaCheck /> Save
+                </p>
+              )}
             </Button>
           </form>
         ) : (
@@ -148,8 +155,8 @@ export default function Members() {
                 </div>
                 {conversationObject.creator &&
                   conversationObject.creator[0].id == member.id && (
-                    <small className="font-bold absolute top-5 right-5">
-                      admin
+                    <small className="flex items-center gap-1.5 font-bold absolute top-5 right-5">
+                      <FaUserTie /> admin
                     </small>
                   )}
               </div>
@@ -161,7 +168,8 @@ export default function Members() {
                     setModify(true);
                   }}
                 >
-                  Modify members ?
+                  <FaPen />
+                  Modify
                 </Button>
               )}
           </main>

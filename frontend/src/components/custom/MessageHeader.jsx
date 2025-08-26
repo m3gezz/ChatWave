@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FaUserGroup } from "react-icons/fa6";
+import { FaArrowRightFromBracket, FaUserGroup } from "react-icons/fa6";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import {
   DropdownMenu,
@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { useMainContext } from "../../contexts/MainContext";
 import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
@@ -18,6 +17,10 @@ import { useNavigate } from "react-router-dom";
 import Members from "./Members";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import GroupEdit from "./GroupEdit";
+import { FaEdit } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
+import { FaComments } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 
 export default function MainHeader() {
   const {
@@ -115,7 +118,7 @@ export default function MainHeader() {
         </div>
         <span>{displayName}</span>
       </div>
-      <span className="text-sm text-center opacity-80 absolute bottom-[-70%] border-2 rounded-sm px-2 left-[50%] translate-x-[-50%]">
+      <span className="text-sm z-10 text-center opacity-80 absolute bottom-[-70%] border-2 rounded-sm px-2 left-[50%] translate-x-[-50%]">
         created by :{" "}
         {conversationObject.creator &&
         conversationObject.creator[0].id === user.id
@@ -132,14 +135,16 @@ export default function MainHeader() {
           <FaEllipsisVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>Chat</DropdownMenuLabel>
+          <DropdownMenuLabel className={"flex items-center gap-1.5"}>
+            <FaComments /> Chat
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
           {conversationObject.group && (
             <>
               <Dialog>
                 <DialogTrigger className={"w-full"}>
                   <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                    members
+                    <FaUsers /> members
                   </DropdownMenuItem>
                 </DialogTrigger>
                 <Members conversation={conversationObject} />
@@ -149,7 +154,7 @@ export default function MainHeader() {
                   <Dialog>
                     <DialogTrigger className={"w-full"}>
                       <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                        Edit
+                        <FaEdit /> Edit
                       </DropdownMenuItem>
                     </DialogTrigger>
                     <GroupEdit />
@@ -160,26 +165,24 @@ export default function MainHeader() {
 
           {conversationObject.creator &&
           conversationObject.creator[0].id === user.id ? (
-            <DropdownMenuItem>
-              <Button
-                variant={"destructive"}
-                disabled={loading}
-                className="w-full cursor-pointer"
-                onClick={handleDelete}
-              >
-                {loading ? <Spinner /> : "Delete"}
-              </Button>
+            <DropdownMenuItem disabled={loading} onClick={handleDelete}>
+              {loading ? (
+                <Spinner />
+              ) : (
+                <p className="flex items-center gap-1.5">
+                  <FaTrash /> Delete
+                </p>
+              )}
             </DropdownMenuItem>
           ) : (
-            <DropdownMenuItem>
-              <Button
-                variant={"destructive"}
-                disabled={loading}
-                className="w-full cursor-pointer"
-                onClick={handleLeave}
-              >
-                {loading ? <Spinner /> : "Leave"}
-              </Button>
+            <DropdownMenuItem disabled={loading} onClick={handleLeave}>
+              {loading ? (
+                <Spinner />
+              ) : (
+                <p className="flex items-center gap-1.5">
+                  <FaArrowRightFromBracket /> Leave
+                </p>
+              )}
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>

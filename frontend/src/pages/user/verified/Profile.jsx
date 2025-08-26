@@ -16,7 +16,7 @@ import UsernameEdit from "../../../components/custom/UsernameEdit";
 import PasswordEdit from "../../../components/custom/PasswordEdit";
 import EmailEdit from "../../../components/custom/EmailEdit";
 import AvatarEdit from "../../../components/custom/AvatarEdit";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaHome, FaPen, FaTrash } from "react-icons/fa";
 import AccountDelete from "../../../components/custom/AccountDelete";
 
 export default function Profile() {
@@ -38,9 +38,11 @@ export default function Profile() {
               Here you can modify any information about you.
             </CardDescription>
             <CardAction>
-              <Button>
-                <Link to={"/user"}>Go Home</Link>
-              </Button>
+              <Link to={"/user"}>
+                <Button>
+                  <FaHome /> Home
+                </Button>
+              </Link>
             </CardAction>
           </CardHeader>
           <CardContent className={"space-y-5"}>
@@ -59,7 +61,8 @@ export default function Profile() {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="outline" className={"w-34"}>
-                    Change avatar
+                    <FaPen />
+                    Edit
                   </Button>
                 </DialogTrigger>
                 <AvatarEdit />
@@ -73,7 +76,8 @@ export default function Profile() {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="outline" className={"w-34"}>
-                    Change username
+                    <FaPen />
+                    Edit
                   </Button>
                 </DialogTrigger>
                 <UsernameEdit />
@@ -96,7 +100,8 @@ export default function Profile() {
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="outline" className={"w-34"}>
-                      Change email
+                      <FaPen />
+                      Edit
                     </Button>
                   </DialogTrigger>
                   <EmailEdit />
@@ -111,7 +116,8 @@ export default function Profile() {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="outline" className={"w-34"}>
-                    Change password
+                    <FaPen />
+                    Edit
                   </Button>
                 </DialogTrigger>
                 <PasswordEdit />
@@ -127,7 +133,7 @@ export default function Profile() {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="destructive" className={"w-34"}>
-                    Delete account
+                    <FaTrash /> Delete
                   </Button>
                 </DialogTrigger>
                 <AccountDelete />
