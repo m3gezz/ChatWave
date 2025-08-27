@@ -18,8 +18,8 @@ class MessageController extends Controller
         Gate::authorize('update', $conversation);
 
         $messages = Message::where('conversation_id', $conversationId)
-                            ->orderBy('created_at')
-                            ->get();
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(5);
 
         return response()->json($messages);
     }
@@ -32,18 +32,14 @@ class MessageController extends Controller
         $fields = $request->validate([
             'content'         => 'required|string',
             'sender'          => 'required|array',
-            'id_conversation' => 'required|exists:conversations,id',
+            'conversation_id' => 'required|exists:conversations,id',
         ]);
 
 
-        $conversation = Conversation::findOrFail($fields['id_conversation']);
-        Gate::authorize('update', $conversation);
+        // $conversation = Conversation::findOrFail($fields['conversation_id']);
+        // Gate::authorize('update', $conversation);
 
-        $message = Message::create([
-            'content'         => $fields['content'],
-            'sender'          => $fields['sender'],
-            'conversation_id' => $fields['id_conversation'],
-        ]);
+        $message = Message::create($fields);
 
         return response()->json($message, 201);
     }

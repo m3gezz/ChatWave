@@ -182,12 +182,12 @@ export default function CreateGroup() {
         {form.formState.errors.members && (
           <Error>{form.formState.errors.members.message}</Error>
         )}
-        <main>
+        <main className="flex px-2">
           {users &&
             users.map((user) => {
               if (selectedMembers.includes(String(user.id))) {
                 return (
-                  <div key={user.id} className="relative left-[-2px]">
+                  <div key={user.id}>
                     <Avatar>
                       <AvatarImage src={user.avatar} />
                       <AvatarFallback className={"border-2"}>

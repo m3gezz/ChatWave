@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";
+import Spinner from "../animations/Spinner";
 
 export default function Messages({ messages }) {
   const bottomRef = useRef(null);
@@ -10,9 +11,15 @@ export default function Messages({ messages }) {
 
   return (
     <main className="flex flex-col flex-1 py-5 gap-0.5 overflow-y-scroll">
-      {messages.map((message, i) => (
-        <Message message={message} key={i} />
-      ))}
+      {messages.length ? (
+        messages.map((message, index) => (
+          <Message message={message} key={index} />
+        ))
+      ) : (
+        <div className="h-1/2 flex items-center justify-center">
+          <Spinner />
+        </div>
+      )}
       <div ref={bottomRef} />
     </main>
   );

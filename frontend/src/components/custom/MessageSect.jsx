@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MessageHeader from "./MessageHeader";
 import Messages from "./Messages";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,12 +7,12 @@ import { FaPaperPlane } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { messageSchema } from "../../schemas/schemas";
-import { messages as data } from "../../data/messages";
 import { useMainContext } from "../../contexts/MainContext";
+import { Client } from "../../axios/axios";
 
 export default function MessageSect() {
-  const { user } = useMainContext();
-  const [messages, setMessages] = useState(data);
+  const { user, token, conversationId } = useMainContext();
+  const [messages, setMessages] = useState([]);
 
   const form = useForm({
     resolver: zodResolver(messageSchema),
@@ -21,23 +21,49 @@ export default function MessageSect() {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const payload = {
       content: data.message,
-      sender: {
-        id: user.id,
-        username: user.username,
-      },
-      date: 3,
+      sender: user,
+      conversation_id: conversationId,
     };
-    setMessages((prev) => [...prev, payload]);
+
     form.reset({ message: "" });
+    try {
+      setMessages((prev) => [...prev, payload]);
+      await Client.post(`/api/messages`, payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } catch (err) {
+      console.error(err.message);
+    } finally {
+    }
   };
+
+  const fetchMessages = async () => {
+    try {
+      const response = await Client.get(
+        `/api/conversations/${conversationId}/messages`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setMessages(response.data.data);
+    } catch (err) {
+      console.error(err.message);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    if (!conversationId) return;
+    fetchMessages();
+  }, [conversationId]);
 
   return (
     <main className="flex-1 max-h-screen overflow-scroll flex flex-col justify-between">
       <MessageHeader />
-      <Messages messages={messages} />
+      <Messages messages={messages && messages} />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="h-fit flex items-end justify-center gap-3.5 p-2 bg-accent"

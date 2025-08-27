@@ -12,7 +12,7 @@ class Message extends Model
 
     protected $fillable = [
         'content',
-        'id_conversation',
+        'conversation_id',
         'sender',
     ];
 
