@@ -182,7 +182,7 @@ export default function CreateGroup() {
         {form.formState.errors.members && (
           <Error>{form.formState.errors.members.message}</Error>
         )}
-        <main className="flex px-2">
+        <main className="flex px-2 select-none">
           {users &&
             users.map((user) => {
               if (selectedMembers.includes(String(user.id))) {

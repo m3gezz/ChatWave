@@ -18,8 +18,8 @@ class MessageController extends Controller
         Gate::authorize('update', $conversation);
 
         $messages = Message::where('conversation_id', $conversationId)
-                            ->orderBy('created_at', 'desc')
-                            ->paginate(5);
+                            ->orderBy('created_at')
+                            ->paginate(50);
 
         return response()->json($messages);
     }
