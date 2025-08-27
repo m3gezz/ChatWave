@@ -21,7 +21,14 @@ import { Client } from "../../axios/axios";
 import { FaTrash } from "react-icons/fa";
 
 export default function AccountDelete() {
-  const { user, token, handleUser, handleToken } = useMainContext();
+  const {
+    user,
+    token,
+    handleUser,
+    handleToken,
+    handleCurrentConversation,
+    handleConversationObject,
+  } = useMainContext();
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
@@ -46,6 +53,8 @@ export default function AccountDelete() {
       );
       handleUser({});
       handleToken(null);
+      handleCurrentConversation(null);
+      handleConversationObject({});
     } catch (err) {
       const errors = err.response?.data?.errors;
 

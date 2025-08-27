@@ -18,6 +18,7 @@ import Error from "./Error";
 import { groupCreationSchema } from "../../schemas/schemas";
 import { avatars } from "../../data/groupAvatars";
 import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
 
 export default function CreateGroup() {
   const { user, token, handleCurrentConversation } = useMainContext();
@@ -35,6 +36,7 @@ export default function CreateGroup() {
     },
   });
   const selectedAvatar = form.watch("avatar");
+  const selectedMembers = form.watch("members");
 
   const onSubmit = async (data) => {
     const members = data.members.map(Number);
@@ -143,7 +145,11 @@ export default function CreateGroup() {
               <Label
                 key={user.id}
                 htmlFor={user.id}
-                className="flex bg-accent items-center justify-start gap-2.5 p-2 rounded-md hover:bg-accent-foreground hover:text-muted-foreground active:scale-95 transition-all"
+                className={`flex items-center justify-start gap-2.5 ${
+                  selectedMembers.includes(String(user.id))
+                    ? "bg-foreground text-muted-foreground"
+                    : "bg-accent"
+                } p-2 rounded-md hover:bg-accent-foreground hover:text-muted active:scale-95 relative transition-all`}
               >
                 <Input
                   id={user.id}
@@ -151,14 +157,22 @@ export default function CreateGroup() {
                   type="checkbox"
                   className="w-fit"
                   {...form.register("members")}
+                  hidden
                 />
-                <Avatar>
+                <Avatar
+                  className={`${
+                    selectedMembers.includes(String(user.id)) && "opacity-50"
+                  }`}
+                >
                   <AvatarImage src={user.avatar} />
                   <AvatarFallback className={"border-2"}>
                     {user.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                {user.username}
+                <span>{user.username}</span>
+                {selectedMembers.includes(String(user.id)) && (
+                  <FaCheck className="absolute right-4" />
+                )}
               </Label>
             ))
           ) : (
@@ -168,6 +182,23 @@ export default function CreateGroup() {
         {form.formState.errors.members && (
           <Error>{form.formState.errors.members.message}</Error>
         )}
+        <main>
+          {users &&
+            users.map((user) => {
+              if (selectedMembers.includes(String(user.id))) {
+                return (
+                  <div key={user.id} className="relative left-[-2px]">
+                    <Avatar>
+                      <AvatarImage src={user.avatar} />
+                      <AvatarFallback className={"border-2"}>
+                        {user.username.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                );
+              }
+            })}
+        </main>
         <Button disabled={loading || !users.length} className={"w-full"}>
           {loading ? <Spinner /> : "Create"}
         </Button>

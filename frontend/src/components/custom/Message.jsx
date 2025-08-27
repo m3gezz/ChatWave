@@ -22,7 +22,7 @@ export default function Message({ message }) {
           user.id == message.sender.id
             ? "bg-foreground text-background"
             : "bg-secondary text-foreground"
-        } rounded-lg px-3 py-2 text-wrap overflow-hidden truncate`}
+        } rounded-lg px-3 py-2 text-wrap overflow-hidden truncate select-text`}
       >
         {message.content}
       </div>
