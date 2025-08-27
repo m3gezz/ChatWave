@@ -17,6 +17,7 @@ import { Client } from "../../axios/axios";
 import Spinner from "../animations/Spinner";
 import Error from "./Error";
 import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
 
 export default function CreateConversation() {
   const { user, token, handleCurrentConversation } = useMainContext();
@@ -31,6 +32,9 @@ export default function CreateConversation() {
       members: null,
     },
   });
+
+  const selectedMember = form.watch("members");
+  console.log(selectedMember);
 
   const onSubmit = async (data) => {
     data.members = [user.id, Number(data.members)];
@@ -91,7 +95,11 @@ export default function CreateConversation() {
               <Label
                 key={user.id}
                 htmlFor={user.id}
-                className="flex bg-accent items-center justify-start gap-2.5 p-2 rounded-md hover:bg-accent-foreground hover:text-muted-foreground active:scale-95 transition-all"
+                className={`flex items-center justify-start gap-2.5 ${
+                  selectedMember == user.id
+                    ? "bg-foreground text-muted-foreground"
+                    : "bg-accent"
+                } p-2 rounded-md hover:bg-accent-foreground hover:text-muted active:scale-95 relative transition-all`}
               >
                 <Input
                   id={user.id}
@@ -99,14 +107,20 @@ export default function CreateConversation() {
                   type="radio"
                   className="w-fit"
                   {...form.register("members")}
+                  hidden
                 />
-                <Avatar>
+                <Avatar
+                  className={`${selectedMember == user.id && "opacity-50"}`}
+                >
                   <AvatarImage src={user.avatar} />
                   <AvatarFallback className={"border-2"}>
                     {user.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                {user.username}
+                <span>{user.username}</span>
+                {selectedMember == user.id && (
+                  <FaCheck className="absolute right-4" />
+                )}
               </Label>
             ))
           ) : (
