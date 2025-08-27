@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 
 use App\Models\User;
@@ -85,3 +86,7 @@ Route::apiResource('/users', UserController::class)->middleware('auth:sanctum');
 
 //Conversations
 Route::apiResource('/conversations', ConversationController::class)->middleware('auth:sanctum');
+
+//Messages
+Route::post('messages', [MessageController::class, 'store'])->middleware('auth:sanctum');
+Route::get('conversations/{id}/messages', [MessageController::class, 'index'])->middleware('auth:sanctum');
