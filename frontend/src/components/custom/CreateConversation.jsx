@@ -32,9 +32,7 @@ export default function CreateConversation() {
       members: null,
     },
   });
-
   const selectedMember = form.watch("members");
-  console.log(selectedMember);
 
   const onSubmit = async (data) => {
     data.members = [user.id, Number(data.members)];

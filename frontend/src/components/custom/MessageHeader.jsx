@@ -118,7 +118,7 @@ export default function MainHeader() {
         </div>
         <span>{displayName}</span>
       </div>
-      <span className="text-sm z-10 text-center opacity-80 absolute bottom-[-70%] border-2 rounded-sm px-2 left-[50%] translate-x-[-50%]">
+      <span className="text-sm z-10 text-center opacity-80 bg-muted absolute bottom-[-70%] border-2 rounded-sm px-2 left-[50%] translate-x-[-50%]">
         created by :{" "}
         {conversationObject.creator &&
         conversationObject.creator[0].id === user.id

@@ -34,7 +34,7 @@ export default function MessageSect() {
 
     form.reset({ message: "" });
     try {
-      setMessages((prev) => [...prev, payload]);
+      setMessages((prev) => [payload, ...prev]);
 
       const response = await Client.post(`/api/messages`, payload, {
         headers: { Authorization: `Bearer ${token}` },
