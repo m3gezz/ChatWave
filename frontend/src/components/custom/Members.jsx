@@ -34,6 +34,8 @@ export default function Members() {
     },
   });
 
+  const selectedMembers = form.watch("members");
+
   const onSubmit = async (data) => {
     const originalMembers = conversationObject.members.map(
       (member) => member.id
@@ -105,7 +107,11 @@ export default function Members() {
               <Label
                 key={user.id}
                 htmlFor={user.id}
-                className="flex bg-accent items-center justify-start gap-2.5 p-2 rounded-md hover:bg-accent-foreground hover:text-muted-foreground active:scale-95 transition-all"
+                className={`flex items-center justify-start gap-2.5 ${
+                  selectedMembers.includes(String(user.id))
+                    ? "bg-foreground text-muted-foreground"
+                    : "bg-accent"
+                } p-2 rounded-md hover:bg-accent-foreground hover:text-muted active:scale-95 relative transition-all`}
               >
                 <Input
                   id={user.id}
@@ -116,14 +122,22 @@ export default function Members() {
                   defaultChecked={conversationObject.members.some(
                     (m) => m.id === user.id
                   )}
+                  hidden
                 />
-                <Avatar>
+                <Avatar
+                  className={`${
+                    selectedMembers.includes(String(user.id)) && "opacity-50"
+                  }`}
+                >
                   <AvatarImage src={user.avatar} />
                   <AvatarFallback className={"border-2"}>
                     {user.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                {user.username}
+                <span>{user.username}</span>
+                {selectedMembers.includes(String(user.id)) && (
+                  <FaCheck className="absolute right-4" />
+                )}
               </Label>
             ))}
             <Button disabled={loading || !users.length} className={"w-full"}>
