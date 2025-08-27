@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";
-import { Fa3, FaClock, FaSpinner } from "react-icons/fa6";
 import { FaDotCircle } from "react-icons/fa";
 
 export default function Messages({ messages }) {

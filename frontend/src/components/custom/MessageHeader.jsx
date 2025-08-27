@@ -116,7 +116,7 @@ export default function MainHeader() {
             <FaUserGroup className="absolute bottom-0 right-0 text-foreground" />
           )}
         </div>
-        <span>{displayName}</span>
+        <strong>{displayName}</strong>
       </div>
       <span className="text-sm z-10 text-center opacity-80 bg-muted absolute bottom-[-70%] border-2 rounded-sm px-2 left-[50%] translate-x-[-50%]">
         created by :{" "}

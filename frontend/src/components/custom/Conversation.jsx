@@ -32,7 +32,7 @@ export default function Conversation({ conversation }) {
   return (
     <main
       onClick={handleClick}
-      className={`flex flex-col text-center items-center md:flex-row border-1 hover:bg-accent ${
+      className={`flex flex-col text-start items-center md:flex-row border-1 hover:bg-accent ${
         conversationId == conversation.id && "bg-accent"
       } active:scale-95 transition-all rounded-md py-2 px-3 gap-2.5`}
     >
@@ -45,9 +45,9 @@ export default function Conversation({ conversation }) {
           <FaUserGroup className="absolute bottom-0 right-0 text-foreground" />
         )}
       </div>
-      <span className="overflow-hidden whitespace-nowrap truncate w-full">
+      <small className="overflow-hidden whitespace-nowrap truncate w-full">
         {displayName}
-      </span>
+      </small>
     </main>
   );
 }
