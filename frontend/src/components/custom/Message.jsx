@@ -7,7 +7,6 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import Spinner from "../animations/Spinner";
 import { Client } from "../../axios/axios";
 
 export default function Message({ message }) {
@@ -22,7 +21,7 @@ export default function Message({ message }) {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log(response);
+      console.log(response.data);
     } catch (err) {
       console.error(err.message);
     } finally {
@@ -66,10 +65,11 @@ export default function Message({ message }) {
             }  px-3 py-2 flex font-medium items-center gap-3 text-wrap overflow-hidden truncate select-text`}
           >
             {message.content}
+
             <small className="flex items-center font-normal select-none text-muted-foreground gap-1 -mb-4 -mr-1">
               {message.created_at && message.created_at.slice(11, 16)}
               {user.id == message.sender.id &&
-                (message.created_at ? (
+                (message.created_at && !loading ? (
                   <FaCheck size={12} />
                 ) : (
                   <FaRegClock size={12} />
@@ -78,28 +78,14 @@ export default function Message({ message }) {
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent>
-          <ContextMenuItem>
-            {loading ? (
-              <Spinner />
-            ) : (
-              <p className="flex items-center gap-1.5">Edit</p>
-            )}
-          </ContextMenuItem>
+          <ContextMenuItem disabled={loading}>Edit</ContextMenuItem>
           {!(message.content === "Message deleted") && (
-            <ContextMenuItem onClick={handleDeleteMe}>
-              {loading ? (
-                <Spinner />
-              ) : (
-                <p className="flex items-center gap-1.5">Delete from me</p>
-              )}
+            <ContextMenuItem disabled={loading} onClick={handleDeleteMe}>
+              Delete from me
             </ContextMenuItem>
           )}
-          <ContextMenuItem onClick={handleDeleteAll}>
-            {loading ? (
-              <Spinner />
-            ) : (
-              <p className="flex items-center gap-1.5">Delete from all</p>
-            )}
+          <ContextMenuItem disabled={loading} onClick={handleDeleteAll}>
+            Delete from all
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
