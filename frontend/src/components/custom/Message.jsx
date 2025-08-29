@@ -160,20 +160,22 @@ export default function Message({ message }) {
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent>
-          <ContextMenuItem
-            disabled={loading}
-            onClick={() => {
-              setEditing(!editing);
-            }}
-          >
-            <FaPen />
-            Edit
-          </ContextMenuItem>
           {!(message.content === "Message deleted") && (
-            <ContextMenuItem disabled={loading} onClick={handleDeleteMe}>
-              <FaTrash />
-              Delete
-            </ContextMenuItem>
+            <>
+              <ContextMenuItem disabled={loading} onClick={handleDeleteMe}>
+                <FaTrash />
+                Delete
+              </ContextMenuItem>
+              <ContextMenuItem
+                disabled={loading}
+                onClick={() => {
+                  setEditing(!editing);
+                }}
+              >
+                <FaPen />
+                Edit
+              </ContextMenuItem>
+            </>
           )}
           <ContextMenuItem disabled={loading} onClick={handleDeleteAll}>
             <FaTrashArrowUp />
