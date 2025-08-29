@@ -6,7 +6,12 @@ import Spinner from "../animations/Spinner";
 import MessageSect from "./MessageSect";
 
 export default function MainSect() {
-  const { token, conversationId, handleConversationObject } = useMainContext();
+  const {
+    token,
+    conversationId,
+    conversationObject,
+    handleConversationObject,
+  } = useMainContext();
   const [loading, setLoading] = useState(false);
 
   const fetchConversation = async () => {
@@ -30,6 +35,7 @@ export default function MainSect() {
 
   useEffect(() => {
     if (!conversationId) return;
+    if (conversationId == conversationObject.id) return;
 
     fetchConversation();
   }, [conversationId]);

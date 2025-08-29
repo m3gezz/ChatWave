@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FaArrowRightFromBracket, FaUserGroup } from "react-icons/fa6";
+import { FaArrowRightFromBracket, FaUserGroup, FaX } from "react-icons/fa6";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import {
   DropdownMenu,
@@ -79,6 +79,11 @@ export default function MainHeader() {
     }
   };
 
+  const handleClose = () => {
+    handleCurrentConversation(null);
+    handleConversationObject({});
+  };
+
   let displayName = "";
   let avatar = "";
   let initial = "";
@@ -139,12 +144,15 @@ export default function MainHeader() {
             <FaComments /> Chat
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleClose}>
+            <FaX /> Close
+          </DropdownMenuItem>
           {conversationObject.group && (
             <>
               <Dialog>
                 <DialogTrigger className={"w-full"}>
                   <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                    <FaUsers /> members
+                    <FaUsers /> Members
                   </DropdownMenuItem>
                 </DialogTrigger>
                 <Members conversation={conversationObject} />

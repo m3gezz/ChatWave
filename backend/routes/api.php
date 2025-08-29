@@ -90,3 +90,5 @@ Route::apiResource('/conversations', ConversationController::class)->middleware(
 //Messages
 Route::post('/messages', [MessageController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/conversations/{id}/messages', [MessageController::class, 'index'])->middleware('auth:sanctum');
+Route::patch('/messages/{message}', [MessageController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('/messages/{message}', [MessageController::class, 'delete'])->middleware('auth:sanctum');

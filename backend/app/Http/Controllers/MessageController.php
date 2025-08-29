@@ -57,7 +57,13 @@ class MessageController extends Controller
      */
     public function update(Request $request, Message $message)
     {
-        //
+        $fields = $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $message->update($fields);
+
+        return response()->json($message, 201);
     }
 
     /**
@@ -65,6 +71,7 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $message->delete();
+        return response()->json("deleted", 201);
     }
 }

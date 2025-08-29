@@ -11,7 +11,7 @@ import { useMainContext } from "../../contexts/MainContext";
 import { Client } from "../../axios/axios";
 
 export default function MessageSect() {
-  const { user, token, conversationId } = useMainContext();
+  const { user, token, conversationId, conversationObject } = useMainContext();
   const [messages, setMessages] = useState([]);
 
   const form = useForm({
