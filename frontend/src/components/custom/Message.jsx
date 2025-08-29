@@ -32,7 +32,6 @@ export default function Message({ message }) {
 
   const handleDeleteAll = async () => {
     setLoading(true);
-    const data = { content: "Message deleted" };
     try {
       await Client.delete(`/api/messages/${message.id}`, {
         headers: { Authorization: `Bearer ${token}` },
