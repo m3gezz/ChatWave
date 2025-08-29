@@ -10,7 +10,8 @@ import {
 import { Client } from "../../axios/axios";
 
 export default function Message({ message }) {
-  const { user, token, conversationObject } = useMainContext();
+  const { user, token, conversationObject, messages, handleMessages } =
+    useMainContext();
   const [loading, setLoading] = useState(false);
 
   const handleDeleteMe = async () => {
@@ -21,7 +22,11 @@ export default function Message({ message }) {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log(response.data);
+      handleMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === response.data.id ? { ...response.data } : msg
+        )
+      );
     } catch (err) {
       console.error(err.message);
     } finally {
@@ -35,6 +40,8 @@ export default function Message({ message }) {
       await Client.delete(`/api/messages/${message.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      handleMessages((prev) => prev.filter((msg) => msg.id != message.id));
     } catch (err) {
       console.error(err.message);
     } finally {

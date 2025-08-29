@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";
 import { FaDotCircle } from "react-icons/fa";
+import { useMainContext } from "../../contexts/MainContext";
 
-export default function Messages({ messages }) {
+export default function Messages() {
+  const { messages } = useMainContext();
   const bottomRef = useRef(null);
 
   useEffect(() => {

@@ -23,10 +23,6 @@ export default function MainContext({ children }) {
     ? JSON.parse(localStorage.getItem("CONVERSATION_OBJECT"))
     : {};
 
-  const parsedMessages = localStorage.getItem("Messages")
-    ? JSON.parse(localStorage.getItem("Messages"))
-    : [];
-
   const [user, setUser] = useState(parsedUser);
   const [token, setToken] = useState(localStorage.getItem("TOKEN") || null);
   const [conversationId, setConversationId] = useState(
@@ -34,7 +30,7 @@ export default function MainContext({ children }) {
   );
   const [conversationObject, setConversationObject] =
     useState(parsedConversation);
-  const [messages, setMessages] = useState(parsedMessages);
+  const [messages, setMessages] = useState([]);
 
   const handleUser = (user) => {
     setUser(user);
@@ -79,14 +75,12 @@ export default function MainContext({ children }) {
     }
   };
 
-  const handleMessages = (messages) => {
-    setMessages(messages);
-
-    if (conversationObject) {
-      localStorage.setItem("MESSAGES", JSON.stringify(conversationObject));
-    } else {
-      localStorage.removeItem("MESSAGES");
-    }
+  const handleMessages = (updater) => {
+    setMessages((prev) => {
+      const newMessages =
+        typeof updater === "function" ? updater(prev) : updater;
+      return newMessages;
+    });
   };
 
   return (
@@ -96,10 +90,12 @@ export default function MainContext({ children }) {
         token,
         conversationId,
         conversationObject,
+        messages,
         handleUser,
         handleToken,
         handleCurrentConversation,
         handleConversationObject,
+        handleMessages,
       }}
     >
       {children}
