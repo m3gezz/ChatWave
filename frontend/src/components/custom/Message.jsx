@@ -10,8 +10,7 @@ import {
 import { Client } from "../../axios/axios";
 
 export default function Message({ message }) {
-  const { user, token, conversationObject, messages, handleMessages } =
-    useMainContext();
+  const { user, token, conversationObject, handleMessages } = useMainContext();
   const [loading, setLoading] = useState(false);
 
   const handleDeleteMe = async () => {
