@@ -6,10 +6,12 @@ const Context = createContext({
   token: null,
   conversationId: null,
   conversationObject: {},
+  messages: [],
   handleUser: () => {},
   handleToken: () => {},
   handleCurrentConversation: () => {},
   handleConversationObject: () => {},
+  handleMessages: () => {},
 });
 
 export default function MainContext({ children }) {
@@ -21,6 +23,10 @@ export default function MainContext({ children }) {
     ? JSON.parse(localStorage.getItem("CONVERSATION_OBJECT"))
     : {};
 
+  const parsedMessages = localStorage.getItem("Messages")
+    ? JSON.parse(localStorage.getItem("Messages"))
+    : [];
+
   const [user, setUser] = useState(parsedUser);
   const [token, setToken] = useState(localStorage.getItem("TOKEN") || null);
   const [conversationId, setConversationId] = useState(
@@ -28,6 +34,7 @@ export default function MainContext({ children }) {
   );
   const [conversationObject, setConversationObject] =
     useState(parsedConversation);
+  const [messages, setMessages] = useState(parsedMessages);
 
   const handleUser = (user) => {
     setUser(user);
@@ -69,6 +76,16 @@ export default function MainContext({ children }) {
       );
     } else {
       localStorage.removeItem("CONVERSATION_OBJECT");
+    }
+  };
+
+  const handleMessages = (messages) => {
+    setMessages(messages);
+
+    if (conversationObject) {
+      localStorage.setItem("MESSAGES", JSON.stringify(conversationObject));
+    } else {
+      localStorage.removeItem("MESSAGES");
     }
   };
 
