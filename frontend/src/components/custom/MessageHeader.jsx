@@ -118,7 +118,7 @@ export default function MainHeader() {
             <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
           </Avatar>
           {conversationObject.group && (
-            <FaUserGroup className="absolute bottom-0 right-0 text-foreground" />
+            <FaUserGroup className="absolute bottom-0 right-0 text-muted-foreground" />
           )}
         </div>
         <strong>{displayName}</strong>

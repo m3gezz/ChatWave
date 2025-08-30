@@ -20,7 +20,7 @@ class MessageController extends Controller
 
         $messages = Message::where('conversation_id', $conversationId)
                             ->orderBy('created_at', 'desc')
-                            ->paginate(20);
+                            ->paginate(40);
 
         return response()->json($messages);
     }

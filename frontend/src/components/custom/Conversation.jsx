@@ -44,7 +44,7 @@ export default function Conversation({ conversation }) {
           <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
         </Avatar>
         {conversation.group && (
-          <FaUserGroup className="absolute bottom-0 right-0 text-foreground" />
+          <FaUserGroup className="absolute bottom-0 right-0 text-muted-foreground" />
         )}
       </div>
       <small className="overflow-hidden whitespace-nowrap truncate w-full">
