@@ -35,6 +35,8 @@ export default function Messages() {
     const channel = pusher.subscribe(`conversation.${conversationId}`);
 
     channel.bind("MessageSent", (data) => {
+      if (data.message.sender?.id == user.id) return;
+
       handleMessages((prev) => [data.message, ...prev]);
     });
 
@@ -106,18 +108,18 @@ export default function Messages() {
     <main
       onScroll={handleScroll}
       ref={containerRef}
-      className="flex flex-col flex-1 py-5 gap-0.5 overflow-y-scroll"
+      className="flex flex-col flex-1 py-5 gap-1 overflow-y-scroll"
     >
-      <div className="text-center mb-4 flex items-center justify-center gap-1">
-        <FaComment />
+      <p className="text-center mb-4">
         This conversation was created by
         <strong>
           {conversationObject.creator &&
           conversationObject.creator[0].username === user.username
-            ? "You"
-            : conversationObject.creator[0].username}
+            ? " You"
+            : conversationObject.creator &&
+              conversationObject.creator[0].username}
         </strong>
-      </div>
+      </p>
       {loadingHistory && <Spinner />}
       {loading ? (
         <div className="h-1/2 flex items-center justify-center text-center w-[90%] mx-auto">
