@@ -110,7 +110,7 @@ export default function MainHeader() {
   }
 
   return (
-    <header className="h-18 flex relative items-center justify-between px-4 border-b-2">
+    <header className="h-18 flex items-center justify-between px-4 border-b-2">
       <div className="flex items-center gap-5">
         <div className="relative">
           <Avatar className={"w-10 h-10 "}>
@@ -123,14 +123,6 @@ export default function MainHeader() {
         </div>
         <strong>{displayName}</strong>
       </div>
-      <span className="text-sm z-10 text-center opacity-60 bg-muted absolute bottom-[-50%] border-2 rounded-sm px-2 left-[50%] translate-x-[-50%]">
-        created by :{" "}
-        {conversationObject.creator &&
-        conversationObject.creator[0].id === user.id
-          ? "You"
-          : conversationObject.creator &&
-            conversationObject.creator[0].username}
-      </span>
       <DropdownMenu>
         <DropdownMenuTrigger
           className={
