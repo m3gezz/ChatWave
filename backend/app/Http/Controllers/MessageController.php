@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Models\Message;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
@@ -36,10 +37,12 @@ class MessageController extends Controller
         ]);
 
 
-        // $conversation = Conversation::findOrFail($fields['conversation_id']);
-        // Gate::authorize('update', $conversation);
-
+        $conversation = Conversation::findOrFail($fields['conversation_id']);
+        Gate::authorize('update', $conversation);
+        
         $message = Message::create($fields);
+
+        broadcast(new MessageSent($message));
 
         return response()->json($message, 201);
     }
@@ -57,6 +60,9 @@ class MessageController extends Controller
      */
     public function update(Request $request, Message $message)
     {
+        $conversation = Conversation::findOrFail($message->conversation_id);
+        Gate::authorize('update', $conversation);
+
         $fields = $request->validate([
             'content' => 'required|string',
         ]);
@@ -71,6 +77,8 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
+         $conversation = Conversation::findOrFail($message->conversation_id);
+        Gate::authorize('update', $conversation);
         $message->delete();
         return response()->json("deleted", 201);
     }

@@ -114,7 +114,7 @@ export default function Message({ message }) {
               user.id == message.sender.id
                 ? "bg-foreground text-background  rounded-tr-0 rounded-l-md rounded-br-md"
                 : "bg-secondary text-foreground  rounded-tl-0 rounded-r-md  rounded-bl-md"
-            }  px-3 py-2 flex font-medium items-center gap-3 text-wrap overflow-hidden truncate select-text`}
+            }  px-3 py-2 flex min-w-fit font-medium items-center gap-3 text-wrap overflow-hidden truncate select-text`}
           >
             {editing ? (
               <form

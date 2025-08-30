@@ -4,6 +4,7 @@ import { useMainContext } from "../../contexts/MainContext";
 import { Client } from "../../axios/axios";
 import Spinner from "../animations/Spinner";
 import { FaComment } from "react-icons/fa6";
+import Pusher from "pusher-js";
 
 export default function Messages() {
   const {
@@ -24,6 +25,24 @@ export default function Messages() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
+      cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+      forceTLS: false,
+    });
+
+    const channel = pusher.subscribe(`conversation.${conversationId}`);
+
+    channel.bind("MessageSent", (data) => {
+      handleMessages((prev) => [data.message, ...prev]);
+    });
+
+    return () => {
+      channel.unbind("MessageSent");
+      pusher.unsubscribe(`conversation.${conversationId}`);
+    };
+  }, [conversationId]);
 
   const fetchMessages = async () => {
     setLoading(true);
