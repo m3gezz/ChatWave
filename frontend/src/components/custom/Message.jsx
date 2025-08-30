@@ -106,8 +106,9 @@ export default function Message({ message }) {
       >
         {message.sender.id == user.id ? "You" : message.sender.username}
       </small>
+
       <ContextMenu>
-        <ContextMenuTrigger>
+        <ContextMenuTrigger disabled={user.id != message.sender.id}>
           <div
             className={`${
               user.id == message.sender.id

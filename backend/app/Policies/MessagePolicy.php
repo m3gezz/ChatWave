@@ -36,9 +36,9 @@ class MessagePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Conversation $conversation): bool
+    public function update(User $user, Message $message): bool
     {
-        return in_array($user->id, $conversation->members);
+        return $user->id == $message->sender->id;
     }
 
     /**

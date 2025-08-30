@@ -89,7 +89,7 @@ export default function Messages() {
       ref={containerRef}
       className="flex flex-col flex-1 py-5 gap-0.5 overflow-y-scroll"
     >
-      <div className="text-center p-2 flex items-center justify-center gap-1">
+      <div className="text-center mb-4 flex items-center justify-center gap-1">
         <FaComment />
         This conversation was created by
         <strong>

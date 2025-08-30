@@ -26,6 +26,8 @@ export default function Conversation({ conversation }) {
   }
 
   const handleClick = () => {
+    if (conversation.id == conversationId) return;
+
     handleCurrentConversation(conversation.id);
   };
 
