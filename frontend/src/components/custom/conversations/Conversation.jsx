@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useMainContext } from "../../contexts/MainContext";
+import { useMainContext } from "@/contexts/MainContext";
 import { FaUserGroup } from "react-icons/fa6";
 
 export default function Conversation({ conversation }) {

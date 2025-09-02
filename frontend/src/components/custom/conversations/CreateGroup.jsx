@@ -8,15 +8,15 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Client } from "../../axios/axios";
-import { useMainContext } from "../../contexts/MainContext";
+import { Client } from "@/axios/axios";
+import { useMainContext } from "@/contexts/MainContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Spinner from "../animations/Spinner";
+import Spinner from "@/components/animations/Spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import Error from "./Error";
-import { groupCreationSchema } from "../../schemas/schemas";
-import { avatars } from "../../data/groupAvatars";
+import Error from "../utils/Error";
+import { groupCreationSchema } from "@/schemas/schemas";
+import { avatars } from "@/data/groupAvatars";
 import { useNavigate } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 

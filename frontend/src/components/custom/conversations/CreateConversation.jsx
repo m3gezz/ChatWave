@@ -6,16 +6,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useMainContext } from "../../contexts/MainContext";
+import { useMainContext } from "@/contexts/MainContext";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { conversationCreationSchema } from "../../schemas/schemas";
+import { conversationCreationSchema } from "@/schemas/schemas";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Client } from "../../axios/axios";
-import Spinner from "../animations/Spinner";
-import Error from "./Error";
+import { Client } from "@/axios/axios";
+import Spinner from "@/components/animations/Spinner";
+import Error from "../utils/Error";
 import { useNavigate } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 

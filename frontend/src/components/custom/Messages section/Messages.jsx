@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Message from "./Message";
-import { useMainContext } from "../../contexts/MainContext";
-import { Client } from "../../axios/axios";
-import Spinner from "../animations/Spinner";
-import { FaComment } from "react-icons/fa6";
+import { useMainContext } from "@/contexts/MainContext";
+import { Client } from "@/axios/axios";
+import Spinner from "@/components/animations/Spinner";
 import Pusher from "pusher-js";
 
 export default function Messages() {

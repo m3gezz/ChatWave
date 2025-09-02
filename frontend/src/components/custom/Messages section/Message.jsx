@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMainContext } from "../../contexts/MainContext";
+import { useMainContext } from "@/contexts/MainContext";
 import {
   FaCheck,
   FaPen,
@@ -14,12 +14,12 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { Client } from "../../axios/axios";
+import { Client } from "@/axios/axios";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { messageSchema } from "../../schemas/schemas";
+import { messageSchema } from "@/schemas/schemas";
 
 export default function Message({ message }) {
   const { user, token, conversationObject, handleMessages } = useMainContext();

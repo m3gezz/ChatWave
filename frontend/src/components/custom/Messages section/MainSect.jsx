@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useMainContext } from "../../contexts/MainContext";
-import ConversationPlaceholder from "./ConversationPlaceholder";
-import { Client } from "../../axios/axios";
-import Spinner from "../animations/Spinner";
+import { useMainContext } from "@/contexts/MainContext";
+import ConversationPlaceholder from "../conversations/ConversationPlaceholder";
+import { Client } from "@/axios/axios";
+import Spinner from "@/components/animations/Spinner";
 import MessageSect from "./MessageSect";
 
 export default function MainSect() {
@@ -35,7 +35,6 @@ export default function MainSect() {
 
   useEffect(() => {
     if (!conversationId) return;
-    if (conversationId == conversationObject.id) return;
 
     fetchConversation();
   }, [conversationId]);

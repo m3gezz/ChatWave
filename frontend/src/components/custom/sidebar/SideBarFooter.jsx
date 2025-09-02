@@ -1,8 +1,8 @@
 import React from "react";
 import { MdGroupAdd } from "react-icons/md";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import CreateConversation from "./CreateConversation";
-import CreateGroup from "./CreateGroup";
+import CreateConversation from "../conversations/CreateConversation";
+import CreateGroup from "../conversations/CreateGroup";
 import { FaUserPlus } from "react-icons/fa";
 
 export default function SideBarFooter() {

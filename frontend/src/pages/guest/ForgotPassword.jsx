@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import FadIn from "../../components/animations/FadIn";
+import FadIn from "@/components/animations/FadIn";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -21,9 +21,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { emailSchema } from "../../schemas/schemas";
-import Spinner from "../../components/animations/Spinner";
-import { Client } from "../../axios/axios";
+import { emailSchema } from "@/schemas/schemas";
+import Spinner from "@/components/animations/Spinner";
+import { Client } from "@/axios/axios";
 
 export default function ForgotPassword() {
   const [loading, setLoading] = useState(false);

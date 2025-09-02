@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Conversation from "./Conversation";
-import { useMainContext } from "../../contexts/MainContext";
-import { Client } from "../../axios/axios";
-import Spinner from "../animations/Spinner";
+import { useMainContext } from "@/contexts/MainContext";
+import { Client } from "@/axios/axios";
+import Spinner from "@/components/animations/Spinner";
 
 export default function Conversations() {
   const { token } = useMainContext();

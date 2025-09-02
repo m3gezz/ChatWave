@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useMainContext } from "../contexts/MainContext";
+import { useMainContext } from "@/contexts/MainContext";
 
 export default function UserLayout() {
   const { user, token } = useMainContext();

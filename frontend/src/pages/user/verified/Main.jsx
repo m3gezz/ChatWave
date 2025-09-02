@@ -1,6 +1,6 @@
 import React from "react";
-import SideBar from "../../../components/custom/SideBar";
-import MainSect from "../../../components/custom/MainSect";
+import MainSect from "@/components/custom/Messages section/MainSect";
+import SideBar from "@/components/custom/sidebar/SideBar";
 
 export default function Main() {
   return (

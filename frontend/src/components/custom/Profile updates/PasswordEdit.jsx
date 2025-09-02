@@ -9,29 +9,30 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMainContext } from "../../contexts/MainContext";
+import { useMainContext } from "@/contexts/MainContext";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { emailSchema } from "../../schemas/schemas";
-import Error from "./Error";
+import { passwordsSchema } from "@/schemas/schemas";
+import Error from "../utils/Error";
 import { useState } from "react";
-import Spinner from "../animations/Spinner";
-import { Client } from "../../axios/axios";
+import Spinner from "@/components/animations/Spinner";
+import { Client } from "@/axios/axios";
 import { useNavigate } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 
-export default function EmailEdit() {
+export default function PasswordEdit() {
   const { user, token, handleUser } = useMainContext();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const form = useForm({
-    resolver: zodResolver(emailSchema),
+    resolver: zodResolver(passwordsSchema),
     defaultValues: {
-      email: user.email,
+      old_password: "",
+      new_password: "",
+      new_password_confirmation: "",
     },
   });
-  const email = form.watch("email");
 
   const handleOnSubmit = async (data) => {
     setLoading(true);
@@ -61,27 +62,57 @@ export default function EmailEdit() {
     <DialogContent className="sm:max-w-[425px]">
       <form onSubmit={form.handleSubmit(handleOnSubmit)}>
         <DialogHeader>
-          <DialogTitle>Edit Email</DialogTitle>
+          <DialogTitle>Edit Password</DialogTitle>
           <DialogDescription>
-            Make changes to your email here. Click save when you&apos;re done.
+            Make changes to your password here. Click save when you&apos;re
+            done.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-2.5 py-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="old_password">Old Password</Label>
           <Input
-            id="email"
-            {...form.register("email")}
-            placeholder="Example@gmail.com"
+            type="password"
+            id="old_password"
+            {...form.register("old_password")}
+            placeholder={"Old Password"}
           />
-          {form.formState.errors.email && (
-            <Error>{form.formState.errors.email.message}</Error>
+          {form.formState.errors.old_password && (
+            <Error>{form.formState.errors.old_password.message}</Error>
+          )}
+        </div>
+        <div className="space-y-2.5 py-2">
+          <Label htmlFor="new_password">New Password</Label>
+          <Input
+            type="password"
+            id="new_password"
+            {...form.register("new_password")}
+            placeholder={"New Password"}
+          />
+          {form.formState.errors.new_password && (
+            <Error>{form.formState.errors.new_password.message}</Error>
+          )}
+        </div>
+        <div className="space-y-2.5 py-2">
+          <Label htmlFor="new_password_confirmation">
+            Confirm New Password
+          </Label>
+          <Input
+            type="password"
+            id="new_password_confirmation"
+            {...form.register("new_password_confirmation")}
+            placeholder={"New Password Confirmation"}
+          />
+          {form.formState.errors.new_password_confirmation && (
+            <Error>
+              {form.formState.errors.new_password_confirmation.message}
+            </Error>
           )}
         </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit" disabled={user.email === email || loading}>
+          <Button type="submit" disabled={loading}>
             {loading ? (
               <Spinner />
             ) : (

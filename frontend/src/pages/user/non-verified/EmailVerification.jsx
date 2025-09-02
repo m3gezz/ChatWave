@@ -5,12 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import FadIn from "../../../components/animations/FadIn";
-import { useMainContext } from "../../../contexts/MainContext";
+import FadIn from "@/components/animations/FadIn";
+import { useMainContext } from "@/contexts/MainContext";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import Spinner from "../../../components/animations/Spinner";
-import { Client } from "../../../axios/axios";
+import Spinner from "@/components/animations/Spinner";
+import { Client } from "@/axios/axios";
 import { FaRegCheckCircle, FaRegTimesCircle } from "react-icons/fa";
 
 export default function EmailVerification() {

@@ -9,9 +9,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
-import Spinner from "../animations/Spinner";
-import { useMainContext } from "../../contexts/MainContext";
-import { Client } from "../../axios/axios";
+import Spinner from "@/components/animations/Spinner";
+import { useMainContext } from "@/contexts/MainContext";
+import { Client } from "@/axios/axios";
 import { FaUser } from "react-icons/fa";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 

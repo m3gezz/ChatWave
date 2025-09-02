@@ -7,17 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import FadIn from "../../../components/animations/FadIn";
+import FadIn from "@/components/animations/FadIn";
 import { Link } from "react-router-dom";
-import { useMainContext } from "../../../contexts/MainContext";
+import { useMainContext } from "@/contexts/MainContext";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import UsernameEdit from "../../../components/custom/UsernameEdit";
-import PasswordEdit from "../../../components/custom/PasswordEdit";
-import EmailEdit from "../../../components/custom/EmailEdit";
-import AvatarEdit from "../../../components/custom/AvatarEdit";
+import UsernameEdit from "@/components/custom/Profile updates/UsernameEdit";
+import PasswordEdit from "@/components/custom/Profile updates/PasswordEdit";
+import EmailEdit from "@/components/custom/Profile updates/EmailEdit";
+import AvatarEdit from "@/components/custom/Profile updates/AvatarEdit";
 import { FaCheckCircle, FaHome, FaPen, FaTrash } from "react-icons/fa";
-import AccountDelete from "../../../components/custom/AccountDelete";
+import AccountDelete from "@/components/custom/Profile updates/AccountDelete";
 
 export default function Profile() {
   const { user } = useMainContext();

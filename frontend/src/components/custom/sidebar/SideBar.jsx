@@ -1,6 +1,6 @@
 import React from "react";
 import SideBarHeader from "./SideBarHeader";
-import Conversations from "./Conversations";
+import Conversations from "../conversations/Conversations";
 import SideBarFooter from "./SideBarFooter";
 
 export default function SideBar() {

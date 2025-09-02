@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import FadIn from "../../components/animations/FadIn";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import FadIn from "@/components/animations/FadIn";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -21,9 +21,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { resetPasswordSchema } from "../../schemas/schemas";
-import Spinner from "../../components/animations/Spinner";
-import { Client } from "../../axios/axios";
+import { resetPasswordSchema } from "@/schemas/schemas";
+import Spinner from "@/components/animations/Spinner";
+import { Client } from "@/axios/axios";
 
 export default function ResetPassword() {
   const location = useLocation();

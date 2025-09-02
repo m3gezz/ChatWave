@@ -7,13 +7,13 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useMainContext } from "../../contexts/MainContext";
-import { Client } from "../../axios/axios";
-import Spinner from "../animations/Spinner";
+import { useMainContext } from "@/contexts/MainContext";
+import { Client } from "@/axios/axios";
+import Spinner from "@/components/animations/Spinner";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { membersEditSchema } from "../../schemas/schemas";
+import { membersEditSchema } from "@/schemas/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { FaCheck, FaPen, FaUserTie } from "react-icons/fa";
@@ -27,33 +27,27 @@ export default function Members() {
   const [modify, setModify] = useState(false);
   const navigate = useNavigate();
 
+  const originalMembers = conversationObject.members.map((m) => String(m.id));
+
   const form = useForm({
     resolver: zodResolver(membersEditSchema),
     defaultValues: {
-      members: [],
+      members: originalMembers,
     },
   });
 
   const selectedMembers = form.watch("members");
 
   const onSubmit = async (data) => {
-    const originalMembers = conversationObject.members.map(
-      (member) => member.id
-    );
     const members = data.members.map(Number);
-    if (arraysEqualUnordered(originalMembers, members)) return;
     data.members = [user.id, ...members];
 
     setLoading(true);
     try {
-      const response = await Client.patch(
-        `/api/conversations/${conversationObject.id}`,
-        data,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      handleCurrentConversation(response.data.id);
+      await Client.patch(`/api/conversations/${conversationObject.id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      handleCurrentConversation(conversationObject.id);
       navigate("/guest");
     } catch (err) {
       console.error(err);
@@ -109,7 +103,7 @@ export default function Members() {
                 htmlFor={user.id}
                 className={`flex items-center justify-start gap-2.5 ${
                   selectedMembers.includes(String(user.id))
-                    ? "bg-foreground text-muted-foreground"
+                    ? "bg-accent-foreground text-muted-foreground"
                     : "bg-accent"
                 } p-2 rounded-md hover:bg-accent-foreground hover:text-muted active:scale-95 relative transition-all`}
               >
@@ -119,9 +113,6 @@ export default function Members() {
                   type="checkbox"
                   className="w-fit"
                   {...form.register("members")}
-                  defaultChecked={conversationObject.members.some(
-                    (m) => m.id === user.id
-                  )}
                   hidden
                 />
                 <Avatar
@@ -140,7 +131,14 @@ export default function Members() {
                 )}
               </Label>
             ))}
-            <Button disabled={loading || !users.length} className={"w-full"}>
+            <Button
+              disabled={
+                loading ||
+                !users.length ||
+                arraysEqualUnordered(selectedMembers, originalMembers)
+              }
+              className={"w-full"}
+            >
               {loading ? (
                 <Spinner />
               ) : (

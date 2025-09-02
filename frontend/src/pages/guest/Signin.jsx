@@ -22,11 +22,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signinFormSchema } from "../../schemas/schemas";
-import Spinner from "../../components/animations/Spinner";
-import { Client } from "../../axios/axios";
-import { useMainContext } from "../../contexts/MainContext";
-import GuestHeader from "@/components/custom/GuestHeader";
+import { signinFormSchema } from "@/schemas/schemas";
+import Spinner from "@/components/animations/Spinner";
+import { Client } from "@/axios/axios";
+import { useMainContext } from "@/contexts/MainContext";
+import GuestHeader from "@/components/custom/headers/GuestHeader";
 
 export default function Signin() {
   const { handleUser, handleToken } = useMainContext();

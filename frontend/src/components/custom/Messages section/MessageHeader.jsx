@@ -10,13 +10,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMainContext } from "../../contexts/MainContext";
-import Spinner from "../animations/Spinner";
-import { Client } from "../../axios/axios";
+import { useMainContext } from "@/contexts/MainContext";
+import Spinner from "@/components/animations/Spinner";
+import { Client } from "@/axios/axios";
 import { useNavigate } from "react-router-dom";
-import Members from "./Members";
+import Members from "../conversations updates/Members";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import GroupEdit from "./GroupEdit";
+import GroupEdit from "../conversations updates/GroupEdit";
 import { FaEdit } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import { FaComments } from "react-icons/fa";

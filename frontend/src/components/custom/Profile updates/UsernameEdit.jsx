@@ -9,34 +9,34 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMainContext } from "../../contexts/MainContext";
+import { useMainContext } from "@/contexts/MainContext";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { passwordsSchema } from "../../schemas/schemas";
-import Error from "./Error";
+import { usernameSchema } from "@/schemas/schemas";
+import Error from "../utils/Error";
 import { useState } from "react";
-import Spinner from "../animations/Spinner";
-import { Client } from "../../axios/axios";
+import Spinner from "@/components/animations/Spinner";
+import { Client } from "@/axios/axios";
 import { useNavigate } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 
-export default function PasswordEdit() {
+export default function UsernameEdit() {
   const { user, token, handleUser } = useMainContext();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const form = useForm({
-    resolver: zodResolver(passwordsSchema),
+    resolver: zodResolver(usernameSchema),
     defaultValues: {
-      old_password: "",
-      new_password: "",
-      new_password_confirmation: "",
+      username: user.username,
     },
   });
+  const username = form.watch("username");
 
   const handleOnSubmit = async (data) => {
     setLoading(true);
     try {
+      await Client.get("/sanctum/csrf-cookie");
       const response = await Client.patch(`/api/users/${user.id}`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -62,57 +62,27 @@ export default function PasswordEdit() {
     <DialogContent className="sm:max-w-[425px]">
       <form onSubmit={form.handleSubmit(handleOnSubmit)}>
         <DialogHeader>
-          <DialogTitle>Edit Password</DialogTitle>
+          <DialogTitle>Edit Username</DialogTitle>
           <DialogDescription>
-            Make changes to your password here. Click save when you&apos;re
+            Make changes to your username here. Click save when you&apos;re
             done.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-2.5 py-2">
-          <Label htmlFor="old_password">Old Password</Label>
-          <Input
-            type="password"
-            id="old_password"
-            {...form.register("old_password")}
-            placeholder={"Old Password"}
-          />
-          {form.formState.errors.old_password && (
-            <Error>{form.formState.errors.old_password.message}</Error>
-          )}
-        </div>
-        <div className="space-y-2.5 py-2">
-          <Label htmlFor="new_password">New Password</Label>
-          <Input
-            type="password"
-            id="new_password"
-            {...form.register("new_password")}
-            placeholder={"New Password"}
-          />
-          {form.formState.errors.new_password && (
-            <Error>{form.formState.errors.new_password.message}</Error>
-          )}
-        </div>
-        <div className="space-y-2.5 py-2">
-          <Label htmlFor="new_password_confirmation">
-            Confirm New Password
-          </Label>
-          <Input
-            type="password"
-            id="new_password_confirmation"
-            {...form.register("new_password_confirmation")}
-            placeholder={"New Password Confirmation"}
-          />
-          {form.formState.errors.new_password_confirmation && (
-            <Error>
-              {form.formState.errors.new_password_confirmation.message}
-            </Error>
+          <Label htmlFor="username">Username</Label>
+          <Input id="username" {...form.register("username")} />
+          {form.formState.errors.username && (
+            <Error>{form.formState.errors.username.message}</Error>
           )}
         </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit" disabled={loading}>
+          <Button
+            type="submit"
+            disabled={username.trim() === user.username || loading}
+          >
             {loading ? (
               <Spinner />
             ) : (

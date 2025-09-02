@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -10,51 +9,38 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useMainContext } from "../../contexts/MainContext";
+import { useMainContext } from "@/contexts/MainContext";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { accountDeletionSchema } from "../../schemas/schemas";
-import Error from "./Error";
+import { emailSchema } from "@/schemas/schemas";
+import Error from "../utils/Error";
 import { useState } from "react";
-import Spinner from "../animations/Spinner";
-import { Client } from "../../axios/axios";
-import { FaTrash } from "react-icons/fa";
+import Spinner from "@/components/animations/Spinner";
+import { Client } from "@/axios/axios";
+import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
 
-export default function AccountDelete() {
-  const {
-    user,
-    token,
-    handleUser,
-    handleToken,
-    handleCurrentConversation,
-    handleConversationObject,
-  } = useMainContext();
+export default function EmailEdit() {
+  const { user, token, handleUser } = useMainContext();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm({
-    resolver: zodResolver(accountDeletionSchema),
+    resolver: zodResolver(emailSchema),
     defaultValues: {
-      password: "",
+      email: user.email,
     },
   });
+  const email = form.watch("email");
 
   const handleOnSubmit = async (data) => {
     setLoading(true);
     try {
-      await Client.post(
-        `/api/users/${user.id}`,
-        {
-          _method: "DELETE",
-          password: data.password,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      handleUser({});
-      handleToken(null);
-      handleCurrentConversation(null);
-      handleConversationObject({});
+      const response = await Client.patch(`/api/users/${user.id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      handleUser(response.data);
+      navigate("/user");
     } catch (err) {
       const errors = err.response?.data?.errors;
 
@@ -75,33 +61,32 @@ export default function AccountDelete() {
     <DialogContent className="sm:max-w-[425px]">
       <form onSubmit={form.handleSubmit(handleOnSubmit)}>
         <DialogHeader>
-          <DialogTitle>Sure you want to delete this account</DialogTitle>
+          <DialogTitle>Edit Email</DialogTitle>
           <DialogDescription>
-            Please enter the correct password to delete your account.
+            Make changes to your email here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-2.5 py-2">
-          <Label htmlFor="password">Enter your password</Label>
+          <Label htmlFor="email">Email</Label>
           <Input
-            id="password"
-            type="password"
-            {...form.register("password")}
-            placeholder="Enter password"
+            id="email"
+            {...form.register("email")}
+            placeholder="Example@gmail.com"
           />
-          {form.formState.errors.password && (
-            <Error>{form.formState.errors.password.message}</Error>
+          {form.formState.errors.email && (
+            <Error>{form.formState.errors.email.message}</Error>
           )}
         </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit" variant={"destructive"} disabled={loading}>
+          <Button type="submit" disabled={user.email === email || loading}>
             {loading ? (
               <Spinner />
             ) : (
               <p className="flex items-center gap-1.5">
-                <FaTrash /> Delete
+                <FaCheck /> Save
               </p>
             )}
           </Button>

@@ -1,59 +1,39 @@
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
+  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogHeader,
-  DialogClose,
   DialogFooter,
+  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { avatars } from "../../data/groupAvatars";
-import { useNavigate } from "react-router-dom";
-import { useMainContext } from "../../contexts/MainContext";
-import { Button } from "@/components/ui/button";
-import Spinner from "../animations/Spinner";
+import { avatars } from "@/data/avatars";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { groupEditSchema } from "../../schemas/schemas";
-import Error from "./Error";
-import { Client } from "../../axios/axios";
+import { useMainContext } from "@/contexts/MainContext";
+import Spinner from "@/components/animations/Spinner";
+import { Client } from "@/axios/axios";
+import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
 
-export default function GroupEdit() {
-  const { token, conversationObject } = useMainContext();
+export default function AvatarEdit() {
+  const { user, token, handleUser } = useMainContext();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const form = useForm({
-    resolver: zodResolver(groupEditSchema),
-    defaultValues: {
-      title: conversationObject.title,
-      avatar: conversationObject.avatar,
-    },
-  });
+  const form = useForm({ defaultValues: { avatar: user.avatar } });
   const selectedAvatar = form.watch("avatar");
 
-  const initial = conversationObject.title.charAt(0).toUpperCase();
+  const initial = user.username.charAt(0).toUpperCase();
 
   const handleOnSubmit = async (data) => {
-    if (
-      data.title.trim() === conversationObject.title &&
-      conversationObject.avatar === selectedAvatar
-    ) {
-      form.setError("title", {
-        type: "manual",
-        message: "White spaces are not a change",
-      });
-      return;
-    }
-
     setLoading(true);
     try {
-      await Client.patch(`/api/conversations/${conversationObject.id}`, data, {
+      const response = await Client.patch(`/api/users/${user.id}`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      navigate("/guest");
+      handleUser(response.data);
+      navigate("/user");
     } catch (err) {
       console.error(err);
     } finally {
@@ -62,18 +42,15 @@ export default function GroupEdit() {
   };
 
   return (
-    <DialogContent className={"select-none"}>
+    <DialogContent className="sm:max-w-[425px] select-none">
       <form onSubmit={form.handleSubmit(handleOnSubmit)}>
         <DialogHeader>
-          <DialogTitle>Edit your group here</DialogTitle>
-          <DialogDescription>change the avatar or the title.</DialogDescription>
+          <DialogTitle>Edit Avatar</DialogTitle>
+          <DialogDescription>
+            Make changes to your avatar here. Click save when you&apos;re done.
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-2.5 py-2">
-          <Label htmlFor="title">Group title</Label>
-          <Input id="title" {...form.register("title")} />
-          {form.formState.errors.title && (
-            <Error>{form.formState.errors.title.message}</Error>
-          )}
           <div className="flex flex-wrap justify-center items-center gap-3.5 py-3.5">
             {avatars.map((avatar, index) => (
               <div key={index}>
@@ -121,7 +98,13 @@ export default function GroupEdit() {
             <Button variant="outline">Cancel</Button>
           </DialogClose>
           <Button type="submit" disabled={!form.formState.isDirty || loading}>
-            {loading ? <Spinner /> : "Save changes"}
+            {loading ? (
+              <Spinner />
+            ) : (
+              <p className="flex items-center gap-1.5">
+                <FaCheck /> Save
+              </p>
+            )}
           </Button>
         </DialogFooter>
       </form>

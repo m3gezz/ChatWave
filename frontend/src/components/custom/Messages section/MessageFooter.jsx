@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { FaPaperPlane } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { messageSchema } from "../../schemas/schemas";
-import { useMainContext } from "../../contexts/MainContext";
-import { Client } from "../../axios/axios";
+import { messageSchema } from "@/schemas/schemas";
+import { useMainContext } from "@/contexts/MainContext";
+import { Client } from "@/axios/axios";
 
 export default function MessageFooter() {
   const { user, token, conversationId, messages, handleMessages } =
