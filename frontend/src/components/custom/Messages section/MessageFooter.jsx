@@ -45,7 +45,7 @@ export default function MessageFooter() {
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className="h-fit flex items-end justify-center gap-3.5 p-2 bg-accent"
+      className="h-fit flex items-end justify-between gap-3.5 p-2 bg-input"
     >
       <Textarea
         className={"min-h-10 max-w-55 md:max-w-120 resize-none"}

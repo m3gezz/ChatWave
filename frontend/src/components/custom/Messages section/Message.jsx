@@ -102,7 +102,7 @@ export default function Message({ message }) {
       <small
         className={`${user.id == message.sender.id && "self-end"} ${
           !conversationObject.group && "hidden"
-        } text-muted-foreground`}
+        } text-accent`}
       >
         {message.sender.id == user.id ? "You" : message.sender.username}
       </small>
@@ -112,8 +112,8 @@ export default function Message({ message }) {
           <div
             className={`${
               user.id == message.sender.id
-                ? "bg-foreground text-background  rounded-tr-0 rounded-l-md rounded-br-md"
-                : "bg-secondary text-foreground  rounded-tl-0 rounded-r-md  rounded-bl-md"
+                ? "bg-primary text-primary-foreground  rounded-tr-0 rounded-l-md rounded-br-md"
+                : "bg-card text-card-foreground  rounded-tl-0 rounded-r-md  rounded-bl-md"
             }  px-3 py-2 flex min-w-fit font-medium items-center gap-3 text-wrap overflow-hidden truncate select-text`}
           >
             {editing ? (
@@ -122,7 +122,7 @@ export default function Message({ message }) {
                 className="flex flex-col gap-1 items-center justify-center"
               >
                 <Textarea
-                  className={`min-h-10 w-35 md:w-55 lg:w-75 resize-none `}
+                  className={`min-h-10 w-35 md:w-55 lg:w-75 resize-none`}
                   maxLength={255}
                   placeholder="Type here..."
                   {...form.register("message")}

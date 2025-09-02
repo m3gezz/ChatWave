@@ -34,8 +34,8 @@ export default function Conversation({ conversation }) {
   return (
     <main
       onClick={handleClick}
-      className={`flex flex-col text-start items-center md:flex-row border-1 hover:bg-accent ${
-        conversationId == conversation.id && "bg-accent"
+      className={`flex flex-col text-start items-center md:flex-row border-1 hover:bg-card ${
+        conversationId == conversation.id && "bg-card"
       } active:scale-95 transition-all rounded-md py-2 px-3 gap-2.5`}
     >
       <div className="relative">

@@ -95,9 +95,9 @@ export default function CreateConversation() {
                 htmlFor={user.id}
                 className={`flex items-center justify-start gap-2.5 ${
                   selectedMember == user.id
-                    ? "bg-foreground text-muted-foreground"
-                    : "bg-accent"
-                } p-2 rounded-md hover:bg-accent-foreground hover:text-muted active:scale-95 relative transition-all`}
+                    ? "bg-card-foreground text-card"
+                    : "bg-muted"
+                } p-2 rounded-md hover:bg-card-foreground hover:text-card active:scale-95 relative transition-all`}
               >
                 <Input
                   id={user.id}
@@ -128,7 +128,10 @@ export default function CreateConversation() {
         {form.formState.errors.members && (
           <Error>{form.formState.errors.members.message}</Error>
         )}
-        <Button disabled={loading || !users.length} className={"w-full"}>
+        <Button
+          disabled={loading || !users.length || !selectedMember}
+          className={"w-full"}
+        >
           {loading ? <Spinner /> : "Create"}
         </Button>
       </form>

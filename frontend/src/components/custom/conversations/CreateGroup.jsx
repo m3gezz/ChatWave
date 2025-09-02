@@ -147,9 +147,9 @@ export default function CreateGroup() {
                 htmlFor={user.id}
                 className={`flex items-center justify-start gap-2.5 ${
                   selectedMembers.includes(String(user.id))
-                    ? "bg-foreground text-muted-foreground"
-                    : "bg-accent"
-                } p-2 rounded-md hover:bg-accent-foreground hover:text-muted active:scale-95 relative transition-all`}
+                    ? "bg-card-foreground text-card"
+                    : "bg-muted"
+                } p-2 rounded-md hover:bg-card-foreground hover:text-card active:scale-95 relative transition-all`}
               >
                 <Input
                   id={user.id}
