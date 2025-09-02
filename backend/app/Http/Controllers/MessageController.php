@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageDeleted;
 use App\Events\MessageSent;
+use App\Events\MessageUpdated;
 use App\Models\Message;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
@@ -68,8 +70,9 @@ class MessageController extends Controller
         ]);
 
         $message->update($fields);
+        broadcast(new MessageUpdated($message));
 
-        return response()->json($message, 201);
+        return response()->json($message, 200);
     }
 
     /**
@@ -79,7 +82,8 @@ class MessageController extends Controller
     {
          $conversation = Conversation::findOrFail($message->conversation_id);
         Gate::authorize('update', $conversation);
+        broadcast(new MessageDeleted($message));
         $message->delete();
-        return response()->json("deleted", 201);
+        return response()->json(['status' => 'deleted'], 200);
     }
 }

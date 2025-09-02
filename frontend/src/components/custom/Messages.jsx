@@ -40,8 +40,20 @@ export default function Messages() {
       handleMessages((prev) => [data.message, ...prev]);
     });
 
+    channel.bind("MessageUpdated", (data) => {
+      handleMessages((prev) =>
+        prev.map((msg) => (msg.id === data.message.id ? data.message : msg))
+      );
+    });
+
+    channel.bind("MessageDeleted", (data) => {
+      handleMessages((prev) => prev.filter((msg) => msg.id !== data.messageId));
+    });
+
     return () => {
       channel.unbind("MessageSent");
+      channel.unbind("MessageUpdated");
+      channel.unbind("MessageDeleted");
       pusher.unsubscribe(`conversation.${conversationId}`);
     };
   }, [conversationId]);
