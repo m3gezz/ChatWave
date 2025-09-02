@@ -61,7 +61,6 @@ class ConversationController extends Controller
         $fields['id_creator'] = $request->user()->id;
 
         $data = Conversation::create($fields);
-
         return response()->json($data, 200);
     }
 
@@ -115,7 +114,6 @@ class ConversationController extends Controller
         Gate::authorize('update', $conversation);
 
         $conversation->delete();
-
         return response()->json(['message' => 'Deleted successfully'], 200);
     }
 }

@@ -38,7 +38,6 @@ class MessageController extends Controller
             'conversation_id' => 'required|exists:conversations,id',
         ]);
 
-
         $conversation = Conversation::findOrFail($fields['conversation_id']);
         Gate::authorize('update', $conversation);
         
@@ -68,8 +67,8 @@ class MessageController extends Controller
         $fields = $request->validate([
             'content' => 'required|string',
         ]);
-
         $message->update($fields);
+
         broadcast(new MessageUpdated($message));
 
         return response()->json($message, 200);
@@ -80,9 +79,11 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-         $conversation = Conversation::findOrFail($message->conversation_id);
+        $conversation = Conversation::findOrFail($message->conversation_id);
         Gate::authorize('update', $conversation);
+
         broadcast(new MessageDeleted($message));
+
         $message->delete();
         return response()->json(['status' => 'deleted'], 200);
     }

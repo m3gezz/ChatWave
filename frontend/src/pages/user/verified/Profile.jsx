@@ -51,7 +51,7 @@ export default function Profile() {
                 <CardDescription>
                   <Avatar className={"w-10 h-10"}>
                     <AvatarImage src={user.avatar} />
-                    <AvatarFallback className={"border-2"}>
+                    <AvatarFallback className={"border-2 bg-muted"}>
                       {initial}
                     </AvatarFallback>
                   </Avatar>

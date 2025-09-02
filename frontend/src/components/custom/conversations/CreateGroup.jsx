@@ -165,7 +165,7 @@ export default function CreateGroup() {
                   }`}
                 >
                   <AvatarImage src={user.avatar} />
-                  <AvatarFallback className={"border-2"}>
+                  <AvatarFallback className={"border-2 bg-muted"}>
                     {user.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -190,7 +190,7 @@ export default function CreateGroup() {
                   <div key={user.id}>
                     <Avatar>
                       <AvatarImage src={user.avatar} />
-                      <AvatarFallback className={"border-2"}>
+                      <AvatarFallback className={"border-2 bg-muted"}>
                         {user.username.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>

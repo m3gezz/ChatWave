@@ -121,7 +121,7 @@ export default function Members() {
                   }`}
                 >
                   <AvatarImage src={user.avatar} />
-                  <AvatarFallback className={"border-2"}>
+                  <AvatarFallback className={"border-2 bg-muted"}>
                     {user.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -157,7 +157,7 @@ export default function Members() {
               >
                 <Avatar>
                   <AvatarImage src={member.avatar} />
-                  <AvatarFallback className={"border-2"}>
+                  <AvatarFallback className={"border-2 bg-muted"}>
                     {member.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>

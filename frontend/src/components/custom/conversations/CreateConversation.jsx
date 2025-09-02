@@ -111,7 +111,7 @@ export default function CreateConversation() {
                   className={`${selectedMember == user.id && "opacity-50"}`}
                 >
                   <AvatarImage src={user.avatar} />
-                  <AvatarFallback className={"border-2"}>
+                  <AvatarFallback className={"border-2 bg-muted"}>
                     {user.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>

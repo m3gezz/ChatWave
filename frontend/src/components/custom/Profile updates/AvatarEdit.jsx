@@ -83,7 +83,7 @@ export default function AvatarEdit() {
               />
               <label
                 htmlFor={`no-avatar`}
-                className={`cursor-pointer flex items-center justify-center bg-foreground text-background w-10 h-10 rounded-full ${
+                className={`cursor-pointer flex items-center justify-center bg-muted text-muted-foreground w-10 h-10 rounded-full ${
                   selectedAvatar === "none" &&
                   "border-3 border-muted-foreground"
                 }`}

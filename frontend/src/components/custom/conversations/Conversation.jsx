@@ -41,7 +41,9 @@ export default function Conversation({ conversation }) {
       <div className="relative">
         <Avatar className={"w-10 h-10 "}>
           <AvatarImage src={avatar} />
-          <AvatarFallback className={"border-2"}>{initial}</AvatarFallback>
+          <AvatarFallback className={"border-2 bg-muted"}>
+            {initial}
+          </AvatarFallback>
         </Avatar>
         {conversation.group && (
           <FaUserGroup className="absolute bottom-0 right-0 text-muted-foreground" />
